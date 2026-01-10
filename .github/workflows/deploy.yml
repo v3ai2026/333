@@ -50,7 +50,7 @@ jobs:
       - name: 🐋 Validate docker-compose.yml
         run: |
           echo "Validating docker-compose.yml syntax..."
-          docker-compose config > /dev/null
+          docker compose config > /dev/null 2>&1 || docker compose config > /dev/null 2>&1
           echo "✓ docker-compose.yml is valid"
 
       - name: 🐋 Validate Dockerfiles
@@ -78,13 +78,28 @@ jobs:
       - name: 🐋 Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: 💾 Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: 🏗️ Build Backend Service Image
         run: |
           echo "Building Python Backend Service..."
           cd backend-service
-          docker build -t magicai-backend:latest . --progress=plain
+          docker build -t magicai-backend:latest . --progress=plain \
+            --cache-from type=local,src=/tmp/.buildx-cache \
+            --cache-to type=local,dest=/tmp/.buildx-cache-new,mode=max
           echo "✓ Backend image built successfully"
         continue-on-error: false
+
+      - name: 🔄 Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache 2>/dev/null || true
 
       - name: 🏗️ Build Web Application Image (if Dockerfile exists)
         run: |
@@ -156,13 +171,13 @@ jobs:
       - name: 🛑 Stop Existing Containers
         run: |
           echo "Stopping existing containers..."
-          docker-compose down --remove-orphans || true
+          docker compose down --remove-orphans || true
           echo "✓ Containers stopped"
 
       - name: 🚀 Start New Containers
         run: |
           echo "Starting containers..."
-          docker-compose up -d
+          docker compose up -d
           echo "✓ Containers started"
 
       - name: ⏳ Wait for Database Ready
@@ -172,7 +187,7 @@ jobs:
           counter=0
           
           while [ $counter -lt $timeout ]; do
-            if docker-compose exec -T db mysqladmin ping -h localhost --silent 2>/dev/null; then
+            if docker compose exec -T db mysqladmin ping -h localhost --silent 2>/dev/null; then
               echo "✓ Database is ready"
               break
             fi
@@ -189,12 +204,12 @@ jobs:
         run: |
           echo "Running database migrations..."
           # Check if web container exists and has Laravel
-          if docker-compose ps | grep -q "magicai_web"; then
+          if docker compose ps | grep -q "magicai_web"; then
             # Try to generate key first
-            docker-compose exec -T web php artisan key:generate --force 2>/dev/null || echo "Key already set or command not available"
+            docker compose exec -T web php artisan key:generate --force 2>/dev/null || echo "Key already set or command not available"
             
             # Run migrations
-            docker-compose exec -T web php artisan migrate --force 2>/dev/null || echo "Migrations skipped (may not be Laravel app yet)"
+            docker compose exec -T web php artisan migrate --force 2>/dev/null || echo "Migrations skipped (may not be Laravel app yet)"
             echo "✓ Migrations completed"
           else
             echo "⚠ Web container not running, skipping migrations"
@@ -204,9 +219,9 @@ jobs:
       - name: 🧹 Clear Cache
         run: |
           echo "Clearing application cache..."
-          if docker-compose ps | grep -q "magicai_web"; then
-            docker-compose exec -T web php artisan cache:clear 2>/dev/null || echo "Cache clear skipped"
-            docker-compose exec -T web php artisan config:cache 2>/dev/null || echo "Config cache skipped"
+          if docker compose ps | grep -q "magicai_web"; then
+            docker compose exec -T web php artisan cache:clear 2>/dev/null || echo "Cache clear skipped"
+            docker compose exec -T web php artisan config:cache 2>/dev/null || echo "Config cache skipped"
             echo "✓ Cache cleared"
           else
             echo "⚠ Web container not running, skipping cache operations"
@@ -241,7 +256,7 @@ jobs:
 
       - name: 🚀 Start Containers for Verification
         run: |
-          docker-compose up -d
+          docker compose up -d
           sleep 10
 
       - name: 🔍 Check Container Status
@@ -249,10 +264,10 @@ jobs:
           echo "==================================="
           echo "Container Status:"
           echo "==================================="
-          docker-compose ps
+          docker compose ps
           
           # Check if containers are running
-          if ! docker-compose ps | grep -q "Up"; then
+          if ! docker compose ps | grep -q "Up"; then
             echo "⚠ No containers are running!"
           else
             echo "✓ Containers are running"
@@ -276,7 +291,7 @@ jobs:
           done
           
           echo "⚠ Web application not responding after ${max_attempts} attempts"
-          docker-compose logs web | tail -50
+          docker compose logs web | tail -50
         continue-on-error: true
 
       - name: 🔧 Test Python Backend Health
@@ -297,16 +312,16 @@ jobs:
           done
           
           echo "⚠ Python backend not responding after ${max_attempts} attempts"
-          docker-compose logs python-backend | tail -50
+          docker compose logs python-backend | tail -50
         continue-on-error: true
 
       - name: 🗄️ Test Database Connection
         run: |
           echo "Testing database connection..."
-          if docker-compose exec -T db mysqladmin ping -h localhost --silent 2>/dev/null; then
+          if docker compose exec -T db mysqladmin ping -h localhost --silent 2>/dev/null; then
             echo "✓ Database is accessible"
-            docker-compose exec -T db mysql -umagicai -ppassword -e "SELECT 1 as test;" 2>/dev/null || \
-            docker-compose exec -T db mysql -uroot -proot_password -e "SELECT 1 as test;" 2>/dev/null || \
+            docker compose exec -T db mysql -umagicai -ppassword -e "SELECT 1 as test;" 2>/dev/null || \
+            docker compose exec -T db mysql -uroot -proot_password -e "SELECT 1 as test;" 2>/dev/null || \
             echo "⚠ Could not run test query"
           else
             echo "⚠ Database not accessible"
@@ -316,7 +331,7 @@ jobs:
       - name: 🔴 Test Redis Connection
         run: |
           echo "Testing Redis connection..."
-          if docker-compose exec -T redis redis-cli ping 2>/dev/null; then
+          if docker compose exec -T redis redis-cli ping 2>/dev/null; then
             echo "✓ Redis is accessible"
           else
             echo "⚠ Redis not accessible"
@@ -331,13 +346,13 @@ jobs:
           echo "==================================="
           echo ""
           echo "--- Backend Service Logs ---"
-          docker-compose logs --tail=50 python-backend || true
+          docker compose logs --tail=50 python-backend || true
           echo ""
           echo "--- Database Logs ---"
-          docker-compose logs --tail=30 db || true
+          docker compose logs --tail=30 db || true
           echo ""
           echo "--- Redis Logs ---"
-          docker-compose logs --tail=20 redis || true
+          docker compose logs --tail=20 redis || true
 
   # ============================================================================
   # Stage 5: Notify
@@ -371,10 +386,10 @@ jobs:
             echo "  🔴 Redis: localhost:6379"
             echo ""
             echo "📋 Useful Commands:"
-            echo "  • View logs: docker-compose logs -f"
-            echo "  • Check status: docker-compose ps"
-            echo "  • Restart: docker-compose restart"
-            echo "  • Stop: docker-compose down"
+            echo "  • View logs: docker compose logs -f"
+            echo "  • Check status: docker compose ps"
+            echo "  • Restart: docker compose restart"
+            echo "  • Stop: docker compose down"
           else
             echo "⚠️ Deployment completed with warnings or errors"
             echo ""
@@ -399,7 +414,7 @@ jobs:
           echo "  • Port conflicts"
           echo ""
           echo "Troubleshooting steps:"
-          echo "  1. Check docker-compose logs"
+          echo "  1. Check docker compose logs"
           echo "  2. Verify .env configuration"
           echo "  3. Ensure ports are available"
           echo "  4. Review build logs artifacts"
@@ -423,7 +438,7 @@ jobs:
           echo "==================================="
           echo ""
           echo "Stopping failed deployment..."
-          docker-compose down --remove-orphans || true
+          docker compose down --remove-orphans || true
           echo ""
           echo "⚠️ Manual intervention may be required"
           echo "Please check the service status and logs"
