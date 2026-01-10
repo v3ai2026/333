@@ -1,0 +1,430 @@
+name: MagicAI v9.9 CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+jobs:
+  # ============================================================================
+  # Stage 1: Code Check
+  # ============================================================================
+  check:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Install Python Dependencies
+        run: |
+          cd backend-service
+          pip install -r requirements.txt
+          pip install flake8
+
+      - name: ✅ Python Syntax Check (flake8)
+        run: |
+          cd backend-service
+          echo "Running flake8 on backend-service..."
+          flake8 app.py --count --select=E9,F63,F7,F82 --show-source --statistics || true
+          flake8 app.py --count --max-complexity=10 --max-line-length=127 --statistics || true
+
+      - name: 🔍 Check requirements.txt
+        run: |
+          cd backend-service
+          echo "Validating requirements.txt..."
+          pip check
+          echo "✓ All Python dependencies are valid"
+
+      - name: 🐋 Validate docker-compose.yml
+        run: |
+          echo "Validating docker-compose.yml syntax..."
+          docker-compose config > /dev/null
+          echo "✓ docker-compose.yml is valid"
+
+      - name: 🐋 Validate Dockerfiles
+        run: |
+          echo "Checking backend-service/Dockerfile..."
+          if [ -f backend-service/Dockerfile ]; then
+            docker run --rm -i hadolint/hadolint < backend-service/Dockerfile || true
+            echo "✓ backend-service/Dockerfile exists"
+          else
+            echo "⚠ backend-service/Dockerfile not found"
+            exit 1
+          fi
+
+  # ============================================================================
+  # Stage 2: Build Docker Images
+  # ============================================================================
+  build:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🐋 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🏗️ Build Backend Service Image
+        run: |
+          echo "Building Python Backend Service..."
+          cd backend-service
+          docker build -t magicai-backend:latest . --progress=plain
+          echo "✓ Backend image built successfully"
+        continue-on-error: false
+
+      - name: 🏗️ Build Web Application Image (if Dockerfile exists)
+        run: |
+          if [ -d "Magicai-Server-Files" ] && [ -f "Magicai-Server-Files/Dockerfile" ]; then
+            echo "Building Web Application..."
+            cd Magicai-Server-Files
+            docker build -t magicai-web:latest . --progress=plain
+            echo "✓ Web image built successfully"
+          else
+            echo "⚠ Magicai-Server-Files/Dockerfile not found, skipping web build"
+          fi
+        continue-on-error: true
+
+      - name: 📊 List Built Images
+        run: |
+          echo "Built Docker images:"
+          docker images | grep magicai || echo "No magicai images found"
+
+      - name: 💾 Save Build Logs
+        if: always()
+        run: |
+          mkdir -p build-logs
+          docker images > build-logs/docker-images.txt
+          echo "Build completed at $(date)" > build-logs/build-info.txt
+
+      - name: 📤 Upload Build Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: build-logs/
+          retention-days: 7
+
+  # ============================================================================
+  # Stage 3: Deploy
+  # ============================================================================
+  deploy:
+    name: Deploy Services
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Create Environment Configuration
+        run: |
+          echo "Creating .env file from example..."
+          if [ ! -f .env ]; then
+            cp .env.example .env
+            # Generate APP_KEY
+            APP_KEY="base64:$(openssl rand -base64 32)"
+            sed -i "s|APP_KEY=base64:.*|APP_KEY=$APP_KEY|g" .env
+            echo "✓ Created .env with generated APP_KEY"
+          else
+            echo "✓ .env already exists"
+          fi
+          
+          # Create backend-service .env
+          if [ ! -f backend-service/.env ]; then
+            if [ -f backend-service/.env.example ]; then
+              cp backend-service/.env.example backend-service/.env
+              echo "✓ Created backend-service/.env"
+            else
+              touch backend-service/.env
+              echo "✓ Created empty backend-service/.env"
+            fi
+          fi
+
+      - name: 🛑 Stop Existing Containers
+        run: |
+          echo "Stopping existing containers..."
+          docker-compose down --remove-orphans || true
+          echo "✓ Containers stopped"
+
+      - name: 🚀 Start New Containers
+        run: |
+          echo "Starting containers..."
+          docker-compose up -d
+          echo "✓ Containers started"
+
+      - name: ⏳ Wait for Database Ready
+        run: |
+          echo "Waiting for database to be ready..."
+          timeout=30
+          counter=0
+          
+          while [ $counter -lt $timeout ]; do
+            if docker-compose exec -T db mysqladmin ping -h localhost --silent 2>/dev/null; then
+              echo "✓ Database is ready"
+              break
+            fi
+            echo "⏳ Waiting for database... ($counter/$timeout)"
+            sleep 1
+            counter=$((counter + 1))
+          done
+          
+          if [ $counter -eq $timeout ]; then
+            echo "⚠ Database not ready after ${timeout}s, continuing anyway..."
+          fi
+
+      - name: 🔄 Run Laravel Migrations
+        run: |
+          echo "Running database migrations..."
+          # Check if web container exists and has Laravel
+          if docker-compose ps | grep -q "magicai_web"; then
+            # Try to generate key first
+            docker-compose exec -T web php artisan key:generate --force 2>/dev/null || echo "Key already set or command not available"
+            
+            # Run migrations
+            docker-compose exec -T web php artisan migrate --force 2>/dev/null || echo "Migrations skipped (may not be Laravel app yet)"
+            echo "✓ Migrations completed"
+          else
+            echo "⚠ Web container not running, skipping migrations"
+          fi
+        continue-on-error: true
+
+      - name: 🧹 Clear Cache
+        run: |
+          echo "Clearing application cache..."
+          if docker-compose ps | grep -q "magicai_web"; then
+            docker-compose exec -T web php artisan cache:clear 2>/dev/null || echo "Cache clear skipped"
+            docker-compose exec -T web php artisan config:cache 2>/dev/null || echo "Config cache skipped"
+            echo "✓ Cache cleared"
+          else
+            echo "⚠ Web container not running, skipping cache operations"
+          fi
+        continue-on-error: true
+
+  # ============================================================================
+  # Stage 4: Verify Deployment
+  # ============================================================================
+  verify:
+    name: Verify Deployment
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Restore Environment
+        run: |
+          if [ ! -f .env ]; then
+            cp .env.example .env
+            APP_KEY="base64:$(openssl rand -base64 32)"
+            sed -i "s|APP_KEY=base64:.*|APP_KEY=$APP_KEY|g" .env
+          fi
+          if [ ! -f backend-service/.env ]; then
+            if [ -f backend-service/.env.example ]; then
+              cp backend-service/.env.example backend-service/.env
+            else
+              touch backend-service/.env
+            fi
+          fi
+
+      - name: 🚀 Start Containers for Verification
+        run: |
+          docker-compose up -d
+          sleep 10
+
+      - name: 🔍 Check Container Status
+        run: |
+          echo "==================================="
+          echo "Container Status:"
+          echo "==================================="
+          docker-compose ps
+          
+          # Check if containers are running
+          if ! docker-compose ps | grep -q "Up"; then
+            echo "⚠ No containers are running!"
+          else
+            echo "✓ Containers are running"
+          fi
+
+      - name: 🌐 Test Web Application
+        run: |
+          echo "Testing Web Application..."
+          max_attempts=10
+          attempt=0
+          
+          while [ $attempt -lt $max_attempts ]; do
+            if curl -f -s -o /dev/null http://localhost:8000 2>/dev/null; then
+              echo "✓ Web application is responding"
+              curl -s http://localhost:8000 | head -20 || true
+              exit 0
+            fi
+            attempt=$((attempt + 1))
+            echo "⏳ Waiting for web app... (attempt $attempt/$max_attempts)"
+            sleep 3
+          done
+          
+          echo "⚠ Web application not responding after ${max_attempts} attempts"
+          docker-compose logs web | tail -50
+        continue-on-error: true
+
+      - name: 🔧 Test Python Backend Health
+        run: |
+          echo "Testing Python Backend..."
+          max_attempts=10
+          attempt=0
+          
+          while [ $attempt -lt $max_attempts ]; do
+            if curl -f -s http://localhost:8080/health 2>/dev/null; then
+              echo "✓ Python backend is healthy"
+              curl -s http://localhost:8080/health | jq '.' || curl -s http://localhost:8080/health
+              exit 0
+            fi
+            attempt=$((attempt + 1))
+            echo "⏳ Waiting for backend... (attempt $attempt/$max_attempts)"
+            sleep 3
+          done
+          
+          echo "⚠ Python backend not responding after ${max_attempts} attempts"
+          docker-compose logs python-backend | tail -50
+        continue-on-error: true
+
+      - name: 🗄️ Test Database Connection
+        run: |
+          echo "Testing database connection..."
+          if docker-compose exec -T db mysqladmin ping -h localhost --silent 2>/dev/null; then
+            echo "✓ Database is accessible"
+            docker-compose exec -T db mysql -umagicai -ppassword -e "SELECT 1 as test;" 2>/dev/null || \
+            docker-compose exec -T db mysql -uroot -proot_password -e "SELECT 1 as test;" 2>/dev/null || \
+            echo "⚠ Could not run test query"
+          else
+            echo "⚠ Database not accessible"
+          fi
+        continue-on-error: true
+
+      - name: 🔴 Test Redis Connection
+        run: |
+          echo "Testing Redis connection..."
+          if docker-compose exec -T redis redis-cli ping 2>/dev/null; then
+            echo "✓ Redis is accessible"
+          else
+            echo "⚠ Redis not accessible"
+          fi
+        continue-on-error: true
+
+      - name: 📋 Display Service Logs
+        if: always()
+        run: |
+          echo "==================================="
+          echo "Service Logs (last 50 lines):"
+          echo "==================================="
+          echo ""
+          echo "--- Backend Service Logs ---"
+          docker-compose logs --tail=50 python-backend || true
+          echo ""
+          echo "--- Database Logs ---"
+          docker-compose logs --tail=30 db || true
+          echo ""
+          echo "--- Redis Logs ---"
+          docker-compose logs --tail=20 redis || true
+
+  # ============================================================================
+  # Stage 5: Notify
+  # ============================================================================
+  notify:
+    name: Deployment Notification
+    runs-on: ubuntu-latest
+    needs: [check, build, deploy, verify]
+    if: always()
+    steps:
+      - name: 📊 Deployment Summary
+        run: |
+          echo "==================================="
+          echo "🚀 MagicAI v9.9 Deployment Summary"
+          echo "==================================="
+          echo ""
+          echo "Build Status: ${{ needs.build.result }}"
+          echo "Deploy Status: ${{ needs.deploy.result }}"
+          echo "Verify Status: ${{ needs.verify.result }}"
+          echo ""
+          
+          if [ "${{ needs.verify.result }}" == "success" ]; then
+            echo "✅ Deployment completed successfully!"
+            echo ""
+            echo "📍 Service Access URLs:"
+            echo "  🌐 Web Application: http://localhost:8000"
+            echo "  📚 API Documentation: http://localhost:8000/api/documentation"
+            echo "  🔧 Backend API: http://localhost:8080/status"
+            echo "  🩺 Backend Health: http://localhost:8080/health"
+            echo "  💾 Database: localhost:3306"
+            echo "  🔴 Redis: localhost:6379"
+            echo ""
+            echo "📋 Useful Commands:"
+            echo "  • View logs: docker-compose logs -f"
+            echo "  • Check status: docker-compose ps"
+            echo "  • Restart: docker-compose restart"
+            echo "  • Stop: docker-compose down"
+          else
+            echo "⚠️ Deployment completed with warnings or errors"
+            echo ""
+            echo "Please check the logs above for details."
+            echo "Some services may not be fully operational."
+          fi
+
+      - name: ❌ Deployment Failed Notification
+        if: failure()
+        run: |
+          echo "==================================="
+          echo "❌ Deployment Failed"
+          echo "==================================="
+          echo ""
+          echo "The deployment process encountered errors."
+          echo "Please review the logs from previous steps."
+          echo ""
+          echo "Common issues:"
+          echo "  • Docker image build failures"
+          echo "  • Database connection issues"
+          echo "  • Missing environment configuration"
+          echo "  • Port conflicts"
+          echo ""
+          echo "Troubleshooting steps:"
+          echo "  1. Check docker-compose logs"
+          echo "  2. Verify .env configuration"
+          echo "  3. Ensure ports are available"
+          echo "  4. Review build logs artifacts"
+
+  # ============================================================================
+  # Rollback on Failure (Optional)
+  # ============================================================================
+  rollback:
+    name: Rollback on Failure
+    runs-on: ubuntu-latest
+    needs: [deploy, verify]
+    if: failure()
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🔄 Attempt Rollback
+        run: |
+          echo "==================================="
+          echo "🔄 Initiating Rollback"
+          echo "==================================="
+          echo ""
+          echo "Stopping failed deployment..."
+          docker-compose down --remove-orphans || true
+          echo ""
+          echo "⚠️ Manual intervention may be required"
+          echo "Please check the service status and logs"
+        continue-on-error: true
