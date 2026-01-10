@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/(.*)", "destination": "https://mdio.shop/$1", "permanent": false }
+  ]
+}
