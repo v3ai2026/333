@@ -1,7 +1,8 @@
 {
   "version": 2,
   "framework": "laravel",
-  "buildCommand": "cd server && composer install --optimize-autoloader --no-dev && npm install && npm run build",
+  "installCommand": "npm install --legacy-peer-deps || true",
+  "buildCommand": "cd server && composer install --optimize-autoloader --no-dev && npm install --legacy-peer-deps && npm run build",
   "outputDirectory": "server/public",
   "env": {
     "APP_ENV": "production",
