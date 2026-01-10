@@ -11,6 +11,10 @@ jobs:
   check-and-deploy:
     runs-on: ubuntu-latest
     
+    # 🔐 Security: Limit GITHUB_TOKEN permissions
+    permissions:
+      contents: read
+    
     steps:
       # ====================================================================
       # 📥 1. 检出代码
