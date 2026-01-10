@@ -1,0 +1,41 @@
+[
+  {
+    "id": "1",
+    "title": "豆瓣电影 Top250",
+    "url": "https://www.douban.com/top250",
+    "category": "电影",
+    "data": {
+      "rating": 9.5,
+      "reviews": 1000
+    },
+    "timestamp": "2026-01-09T20:55:03.633493"
+  },
+  {
+    "id": "2",
+    "title": "淘宝美女",
+    "url": "https://mm.taobao.com",
+    "category": "电商",
+    "data": {
+      "products": 100,
+      "price_range": [
+        100,
+        10000
+      ]
+    },
+    "timestamp": "2026-01-09T20:55:03.633499"
+  },
+  {
+    "id": "3",
+    "title": "腾讯招聘",
+    "url": "https://hr.tencent.com",
+    "category": "招聘",
+    "data": {
+      "positions": 50,
+      "salary_range": [
+        15000,
+        50000
+      ]
+    },
+    "timestamp": "2026-01-09T20:55:03.633501"
+  }
+]

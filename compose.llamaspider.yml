@@ -1,0 +1,93 @@
+
+
+version: '3.8'
+
+services:
+  # ========== 數據庫層 ==========
+  db:
+    image: mysql:8.0
+    container_name: llamaspider-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-secret}
+      MYSQL_DATABASE: ${DB_DATABASE:-magicai}
+      MYSQL_USER: ${DB_USER:-magicai}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - llamaspider-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ========== 緩存層 ==========
+  redis:
+    image: redis:7-alpine
+    container_name: llamaspider-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - llamaspider-network
+
+  # ========== Ollama LLM 服務層 ==========
+  ollama:
+    image: ollama/ollama:latest
+    container_name: llamaspider-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    environment:
+      OLLAMA_HOST: 0.0.0.0:11434
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - llamaspider-network
+    command: ollama serve
+
+  # ========== LLamaSpider 爬蟲應用層 ==========
+  llama-spider:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: llamaspider-app
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+      - ollama
+    environment:
+      PYTHONUNBUFFERED: "1"
+      APP_ENV: ${APP_ENV:-production}
+      DB_HOST: db
+      DB_DATABASE: ${DB_DATABASE:-magicai}
+      DB_USERNAME: ${DB_USER:-magicai}
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-llama2}
+    ports:
+      - "5000:5000"
+      - "8000:8000"
+    volumes:
+      - ./scripts:/app/scripts:ro
+      - ./data:/app/data
+    networks:
+      - llamaspider-network
+
+volumes:
+  db_data:
+  redis_data:
+  ollama_data:
+
+networks:
+  llamaspider-network:
+    driver: bridge

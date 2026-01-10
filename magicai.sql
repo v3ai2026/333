@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `moda.STUDIO`
+-- Database: `magicai`
 --
 
 -- --------------------------------------------------------
@@ -507,7 +507,7 @@ INSERT INTO `currencies` (`id`, `country`, `currency`, `code`, `symbol`, `thousa
 (8, 'Bahamas', 'Dollars', 'BSD', '$', ',', '.'),
 (9, 'Barbados', 'Dollars', 'BBD', '$', ',', '.'),
 (10, 'Belarus', 'Rubles', 'BYR', 'p.', ',', '.'),
-(11, 'Belgium', 'Euro', 'EUR', '�?, ',', '.'),
+(11, 'Belgium', 'Euro', 'EUR', '€', ',', '.'),
 (12, 'Beliz', 'Dollars', 'BZD', 'BZ$', ',', '.'),
 (13, 'Bermuda', 'Dollars', 'BMD', '$', ',', '.'),
 (14, 'Bolivia', 'Bolivianos', 'BOB', '$b', ',', '.'),
@@ -517,16 +517,16 @@ INSERT INTO `currencies` (`id`, `country`, `currency`, `code`, `symbol`, `thousa
 (18, 'Brazil', 'Reais', 'BRL', 'R$', ',', '.'),
 (19, 'Britain (United Kingdom)', 'Pounds', 'GBP', '£', ',', '.'),
 (20, 'Brunei Darussalam', 'Dollars', 'BND', '$', ',', '.'),
-(21, 'Cambodia', 'Riels', 'KHR', '�?, ',', '.'),
+(21, 'Cambodia', 'Riels', 'KHR', '៛', ',', '.'),
 (22, 'Canada', 'Dollars', 'CAD', '$', ',', '.'),
 (23, 'Cayman Islands', 'Dollars', 'KYD', '$', ',', '.'),
 (24, 'Chile', 'Pesos', 'CLP', '$', ',', '.'),
 (25, 'China', 'Yuan Renminbi', 'CNY', '¥', ',', '.'),
 (26, 'Colombia', 'Pesos', 'COP', '$', ',', '.'),
-(27, 'Costa Rica', 'Colón', 'CRC', '�?, ',', '.'),
+(27, 'Costa Rica', 'Colón', 'CRC', '₡', ',', '.'),
 (28, 'Croatia', 'Kuna', 'HRK', 'kn', ',', '.'),
-(29, 'Cuba', 'Pesos', 'CUP', '�?, ',', '.'),
-(30, 'Cyprus', 'Euro', 'EUR', '�?, ',', '.'),
+(29, 'Cuba', 'Pesos', 'CUP', '₱', ',', '.'),
+(30, 'Cyprus', 'Euro', 'EUR', '€', ',', '.'),
 (31, 'Czech Republic', 'Koruny', 'CZK', 'Kč', ',', '.'),
 (32, 'Denmark', 'Kroner', 'DKK', 'kr', ',', '.'),
 (33, 'Dominican Republic', 'Pesos', 'DOP ', 'RD$', ',', '.'),
@@ -534,99 +534,99 @@ INSERT INTO `currencies` (`id`, `country`, `currency`, `code`, `symbol`, `thousa
 (35, 'Egypt', 'Pounds', 'EGP', '£', ',', '.'),
 (36, 'El Salvador', 'Colones', 'SVC', '$', ',', '.'),
 (37, 'England (United Kingdom)', 'Pounds', 'GBP', '£', ',', '.'),
-(38, 'Euro', 'Euro', 'EUR', '�?, ',', '.'),
+(38, 'Euro', 'Euro', 'EUR', '€', ',', '.'),
 (39, 'Falkland Islands', 'Pounds', 'FKP', '£', ',', '.'),
 (40, 'Fiji', 'Dollars', 'FJD', '$', ',', '.'),
-(41, 'France', 'Euro', 'EUR', '�?, ',', '.'),
+(41, 'France', 'Euro', 'EUR', '€', ',', '.'),
 (42, 'Ghana', 'Cedis', 'GHS', '¢', ',', '.'),
 (43, 'Gibraltar', 'Pounds', 'GIP', '£', ',', '.'),
-(44, 'Greece', 'Euro', 'EUR', '�?, ',', '.'),
+(44, 'Greece', 'Euro', 'EUR', '€', ',', '.'),
 (45, 'Guatemala', 'Quetzales', 'GTQ', 'Q', ',', '.'),
 (46, 'Guernsey', 'Pounds', 'GGP', '£', ',', '.'),
 (47, 'Guyana', 'Dollars', 'GYD', '$', ',', '.'),
-(48, 'Holland (Netherlands)', 'Euro', 'EUR', '�?, ',', '.'),
+(48, 'Holland (Netherlands)', 'Euro', 'EUR', '€', ',', '.'),
 (49, 'Honduras', 'Lempiras', 'HNL', 'L', ',', '.'),
 (50, 'Hong Kong', 'Dollars', 'HKD', '$', ',', '.'),
 (51, 'Hungary', 'Forint', 'HUF', 'Ft', ',', '.'),
 (52, 'Iceland', 'Kronur', 'ISK', 'kr', ',', '.'),
-(53, 'India', 'Rupees', 'INR', '�?, ',', '.'),
+(53, 'India', 'Rupees', 'INR', '₹', ',', '.'),
 (54, 'Indonesia', 'Rupiahs', 'IDR', 'Rp', ',', '.'),
-(55, 'Iran', 'Rials', 'IRR', '�?, ',', '.'),
-(56, 'Ireland', 'Euro', 'EUR', '�?, ',', '.'),
+(55, 'Iran', 'Rials', 'IRR', '﷼', ',', '.'),
+(56, 'Ireland', 'Euro', 'EUR', '€', ',', '.'),
 (57, 'Isle of Man', 'Pounds', 'IMP', '£', ',', '.'),
-(58, 'Israel', 'New Shekels', 'ILS', '�?, ',', '.'),
-(59, 'Italy', 'Euro', 'EUR', '�?, ',', '.'),
+(58, 'Israel', 'New Shekels', 'ILS', '₪', ',', '.'),
+(59, 'Italy', 'Euro', 'EUR', '€', ',', '.'),
 (60, 'Jamaica', 'Dollars', 'JMD', 'J$', ',', '.'),
 (61, 'Japan', 'Yen', 'JPY', '¥', ',', '.'),
 (62, 'Jersey', 'Pounds', 'JEP', '£', ',', '.'),
 (63, 'Kazakhstan', 'Tenge', 'KZT', 'лв', ',', '.'),
-(64, 'Korea (North)', 'Won', 'KPW', '�?, ',', '.'),
-(65, 'Korea (South)', 'Won', 'KRW', '�?, ',', '.'),
+(64, 'Korea (North)', 'Won', 'KPW', '₩', ',', '.'),
+(65, 'Korea (South)', 'Won', 'KRW', '₩', ',', '.'),
 (66, 'Kyrgyzstan', 'Soms', 'KGS', 'лв', ',', '.'),
-(67, 'Laos', 'Kips', 'LAK', '�?, ',', '.'),
+(67, 'Laos', 'Kips', 'LAK', '₭', ',', '.'),
 (68, 'Latvia', 'Lati', 'LVL', 'Ls', ',', '.'),
 (69, 'Lebanon', 'Pounds', 'LBP', '£', ',', '.'),
 (70, 'Liberia', 'Dollars', 'LRD', '$', ',', '.'),
 (71, 'Liechtenstein', 'Switzerland Francs', 'CHF', 'CHF', ',', '.'),
 (72, 'Lithuania', 'Litai', 'LTL', 'Lt', ',', '.'),
-(73, 'Luxembourg', 'Euro', 'EUR', '�?, ',', '.'),
+(73, 'Luxembourg', 'Euro', 'EUR', '€', ',', '.'),
 (74, 'Macedonia', 'Denars', 'MKD', 'ден', ',', '.'),
 (75, 'Malaysia', 'Ringgits', 'MYR', 'RM', ',', '.'),
-(76, 'Malta', 'Euro', 'EUR', '�?, ',', '.'),
-(77, 'Mauritius', 'Rupees', 'MUR', '�?, ',', '.'),
+(76, 'Malta', 'Euro', 'EUR', '€', ',', '.'),
+(77, 'Mauritius', 'Rupees', 'MUR', '₨', ',', '.'),
 (78, 'Mexico', 'Pesos', 'MXN', '$', ',', '.'),
-(79, 'Mongolia', 'Tugriks', 'MNT', '�?, ',', '.'),
+(79, 'Mongolia', 'Tugriks', 'MNT', '₮', ',', '.'),
 (80, 'Mozambique', 'Meticais', 'MZN', 'MT', ',', '.'),
 (81, 'Namibia', 'Dollars', 'NAD', '$', ',', '.'),
-(82, 'Nepal', 'Rupees', 'NPR', '�?, ',', '.'),
+(82, 'Nepal', 'Rupees', 'NPR', '₨', ',', '.'),
 (83, 'Netherlands Antilles', 'Guilders', 'ANG', 'ƒ', ',', '.'),
-(84, 'Netherlands', 'Euro', 'EUR', '�?, ',', '.'),
+(84, 'Netherlands', 'Euro', 'EUR', '€', ',', '.'),
 (85, 'New Zealand', 'Dollars', 'NZD', '$', ',', '.'),
 (86, 'Nicaragua', 'Cordobas', 'NIO', 'C$', ',', '.'),
-(87, 'Nigeria', 'Nairas', 'NGN', '�?, ',', '.'),
-(88, 'North Korea', 'Won', 'KPW', '�?, ',', '.'),
+(87, 'Nigeria', 'Nairas', 'NGN', '₦', ',', '.'),
+(88, 'North Korea', 'Won', 'KPW', '₩', ',', '.'),
 (89, 'Norway', 'Krone', 'NOK', 'kr', ',', '.'),
-(90, 'Oman', 'Rials', 'OMR', '�?, ',', '.'),
-(91, 'Pakistan', 'Rupees', 'PKR', '�?, ',', '.'),
+(90, 'Oman', 'Rials', 'OMR', '﷼', ',', '.'),
+(91, 'Pakistan', 'Rupees', 'PKR', '₨', ',', '.'),
 (92, 'Panama', 'Balboa', 'PAB', 'B/.', ',', '.'),
 (93, 'Paraguay', 'Guarani', 'PYG', 'Gs', ',', '.'),
 (94, 'Peru', 'Nuevos Soles', 'PEN', 'S/.', ',', '.'),
 (95, 'Philippines', 'Pesos', 'PHP', 'Php', ',', '.'),
 (96, 'Poland', 'Zlotych', 'PLN', 'zł', ',', '.'),
-(97, 'Qatar', 'Rials', 'QAR', '�?, ',', '.'),
+(97, 'Qatar', 'Rials', 'QAR', '﷼', ',', '.'),
 (98, 'Romania', 'New Lei', 'RON', 'lei', ',', '.'),
 (99, 'Russia', 'Rubles', 'RUB', 'руб', ',', '.'),
 (100, 'Saint Helena', 'Pounds', 'SHP', '£', ',', '.'),
-(101, 'Saudi Arabia', 'Riyals', 'SAR', '�?, ',', '.'),
+(101, 'Saudi Arabia', 'Riyals', 'SAR', '﷼', ',', '.'),
 (102, 'Serbia', 'Dinars', 'RSD', 'Дин.', ',', '.'),
-(103, 'Seychelles', 'Rupees', 'SCR', '�?, ',', '.'),
+(103, 'Seychelles', 'Rupees', 'SCR', '₨', ',', '.'),
 (104, 'Singapore', 'Dollars', 'SGD', '$', ',', '.'),
-(105, 'Slovenia', 'Euro', 'EUR', '�?, ',', '.'),
+(105, 'Slovenia', 'Euro', 'EUR', '€', ',', '.'),
 (106, 'Solomon Islands', 'Dollars', 'SBD', '$', ',', '.'),
 (107, 'Somalia', 'Shillings', 'SOS', 'S', ',', '.'),
 (108, 'South Africa', 'Rand', 'ZAR', 'R', ',', '.'),
-(109, 'South Korea', 'Won', 'KRW', '�?, ',', '.'),
-(110, 'Spain', 'Euro', 'EUR', '�?, ',', '.'),
-(111, 'Sri Lanka', 'Rupees', 'LKR', '�?, ',', '.'),
+(109, 'South Korea', 'Won', 'KRW', '₩', ',', '.'),
+(110, 'Spain', 'Euro', 'EUR', '€', ',', '.'),
+(111, 'Sri Lanka', 'Rupees', 'LKR', '₨', ',', '.'),
 (112, 'Sweden', 'Kronor', 'SEK', 'kr', ',', '.'),
 (113, 'Switzerland', 'Francs', 'CHF', 'CHF', ',', '.'),
 (114, 'Suriname', 'Dollars', 'SRD', '$', ',', '.'),
 (115, 'Syria', 'Pounds', 'SYP', '£', ',', '.'),
 (116, 'Taiwan', 'New Dollars', 'TWD', 'NT$', ',', '.'),
-(117, 'Thailand', 'Baht', 'THB', '�?, ',', '.'),
+(117, 'Thailand', 'Baht', 'THB', '฿', ',', '.'),
 (118, 'Trinidad and Tobago', 'Dollars', 'TTD', 'TT$', ',', '.'),
 (119, 'Turkey', 'Lira', 'TRY', 'TL', ',', '.'),
 (120, 'Turkey', 'Liras', 'TRL', '£', ',', '.'),
 (121, 'Tuvalu', 'Dollars', 'TVD', '$', ',', '.'),
-(122, 'Ukraine', 'Hryvnia', 'UAH', '�?, ',', '.'),
+(122, 'Ukraine', 'Hryvnia', 'UAH', '₴', ',', '.'),
 (123, 'United Kingdom', 'Pounds', 'GBP', '£', ',', '.'),
 (124, 'United States of America', 'Dollars', 'USD', '$', ',', '.'),
 (125, 'Uruguay', 'Pesos', 'UYU', '$U', ',', '.'),
 (126, 'Uzbekistan', 'Sums', 'UZS', 'лв', ',', '.'),
-(127, 'Vatican City', 'Euro', 'EUR', '�?, ',', '.'),
+(127, 'Vatican City', 'Euro', 'EUR', '€', ',', '.'),
 (128, 'Venezuela', 'Bolivares Fuertes', 'VEF', 'Bs', ',', '.'),
-(129, 'Vietnam', 'Dong', 'VND', '�?, ',', '.'),
-(130, 'Yemen', 'Rials', 'YER', '�?, ',', '.'),
+(129, 'Vietnam', 'Dong', 'VND', '₫', ',', '.'),
+(130, 'Yemen', 'Rials', 'YER', '﷼', ',', '.'),
 (131, 'Zimbabwe', 'Zimbabwe Dollars', 'ZWD', 'Z$', ',', '.'),
 (132, 'West African CFA franc', 'Francs', 'XOF', 'CFA', ',', '.');
 
@@ -818,7 +818,8 @@ INSERT INTO `engines` (`id`, `key`, `status`, `created_at`, `updated_at`) VALUES
 (29, 'creatify', 'enabled', '2025-12-23 12:44:46', '2025-12-23 12:44:46'),
 (30, 'topview', 'enabled', '2025-12-23 12:44:46', '2025-12-23 12:44:46'),
 (31, 'vizard', 'enabled', '2025-12-23 12:44:46', '2025-12-23 12:44:46'),
-(32, 'klap', 'enabled', '2025-12-23 12:44:46', '2025-12-23 12:44:46');
+(32, 'klap', 'enabled', '2025-12-23 12:44:46', '2025-12-23 12:44:46'),
+(33, 'ollama', 'enabled', '2026-01-09 12:44:46', '2026-01-09 12:44:46');
 
 -- --------------------------------------------------------
 
@@ -1034,7 +1035,12 @@ INSERT INTO `entities` (`id`, `key`, `title`, `engine`, `created_at`, `updated_a
 (188, 'ad-marketing-video', 'Ad Marketing Video', 'creatify', '2025-12-23 12:44:46', '2025-12-23 12:44:51', 'Ad Marketing Video', 0, 'enabled', NULL),
 (189, 'ad-marketing-video-topview', 'Topview Ad Video', 'topview', '2025-12-23 12:44:46', '2025-12-23 12:44:51', 'Topview Ad Video', 0, 'enabled', NULL),
 (190, 'ai-clip-vizard', 'Vizard AI Clip', 'vizard', '2025-12-23 12:44:46', '2025-12-23 12:44:51', 'Vizard AI Clip', 0, 'enabled', NULL),
-(191, 'ai-clip-klap', 'Klap AI Clip', 'klap', '2025-12-23 12:44:46', '2025-12-23 12:44:51', 'Klap AI Clip', 0, 'enabled', NULL);
+(191, 'ai-clip-klap', 'Klap AI Clip', 'klap', '2025-12-23 12:44:46', '2025-12-23 12:44:51', 'Klap AI Clip', 0, 'enabled', NULL),
+(192, 'llama2', 'Llama 2 (Local - Ollama)', 'ollama', '2026-01-09 12:44:46', '2026-01-09 12:44:51', 'Llama 2 (Local - Ollama)', 1, 'enabled', NULL),
+(193, 'llama3', 'Llama 3 (Local - Ollama)', 'ollama', '2026-01-09 12:44:46', '2026-01-09 12:44:51', 'Llama 3 (Local - Ollama)', 0, 'enabled', NULL),
+(194, 'llama3.1', 'Llama 3.1 (Local - Ollama)', 'ollama', '2026-01-09 12:44:46', '2026-01-09 12:44:51', 'Llama 3.1 (Local - Ollama)', 0, 'enabled', NULL),
+(195, 'mistral', 'Mistral 7B (Local - Ollama)', 'ollama', '2026-01-09 12:44:46', '2026-01-09 12:44:51', 'Mistral 7B (Local - Ollama)', 0, 'enabled', NULL),
+(196, 'neural-chat', 'Neural Chat (Local - Ollama)', 'ollama', '2026-01-09 12:44:46', '2026-01-09 12:44:51', 'Neural Chat (Local - Ollama)', 0, 'enabled', NULL);
 
 -- --------------------------------------------------------
 
@@ -1108,11 +1114,11 @@ CREATE TABLE `faq` (
 --
 
 INSERT INTO `faq` (`id`, `question`, `answer`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'How does it generate responses?', 'moda.STUDIO uses the most popular AI models such as GPT, Dall-E, Ada to create text, image, code and more within seconds. The process is simple. All you have to do is provide a topic or idea, and our AI-based generator will take care of the rest.', NULL, '2023-06-02 12:14:35', '2023-06-02 12:14:35'),
+(1, 'How does it generate responses?', 'MagicAI uses the most popular AI models such as GPT, Dall-E, Ada to create text, image, code and more within seconds. The process is simple. All you have to do is provide a topic or idea, and our AI-based generator will take care of the rest.', NULL, '2023-06-02 12:14:35', '2023-06-02 12:14:35'),
 (2, 'Can I create templates or chat bots?', 'You can use pre-made templates and examples for various content types and industries to help you get started quickly. You can even create your own chatbot or custom prompt template for further customization.', NULL, '2023-06-02 12:15:43', '2023-06-02 12:15:43'),
 (3, 'Should I buy regular or extended license?', 'If you plan to charge end users for the final product or service, you should buy the extended license in compliance with Envato’s terms of service, same as other projects: https://codecanyon.net/licenses/standard', NULL, '2023-06-02 12:16:02', '2023-06-02 12:16:02'),
-(4, 'Can I translate the script into another language?', 'Yes! moda.STUDIO\'s multilingual capabilities apply to both content generation and dashboard language. You can easily translate it into other languages. A built-in translation tool is coming soon!', NULL, '2023-06-02 12:16:25', '2023-06-02 12:16:25'),
-(5, 'Is there a mobile app for moda.STUDIO?', 'moda.STUDIO provides an almost native-app experience thanks to its mobile-first approach. The entire layout is responsive and works great on any device regardless of the size.', NULL, '2023-06-02 12:16:53', '2023-06-02 12:16:53');
+(4, 'Can I translate the script into another language?', 'Yes! MagicAI\'s multilingual capabilities apply to both content generation and dashboard language. You can easily translate it into other languages. A built-in translation tool is coming soon!', NULL, '2023-06-02 12:16:25', '2023-06-02 12:16:25'),
+(5, 'Is there a mobile app for MagicAI?', 'MagicAI provides an almost native-app experience thanks to its mobile-first approach. The entire layout is responsive and works great on any device regardless of the size.', NULL, '2023-06-02 12:16:53', '2023-06-02 12:16:53');
 
 -- --------------------------------------------------------
 
@@ -1152,7 +1158,7 @@ INSERT INTO `features_marquees` (`id`, `title`, `position`, `created_at`, `updat
 (2, 'Easy to use', 'top', NULL, NULL),
 (3, 'Customizable', 'top', NULL, NULL),
 (4, 'No coding required', 'top', NULL, NULL),
-(5, '10 Reasons to use moda.STUDIO', 'bottom', NULL, NULL),
+(5, '10 Reasons to use MagicAI', 'bottom', NULL, NULL),
 (6, 'No sign up required', 'bottom', NULL, NULL),
 (7, 'No watermarks', 'bottom', NULL, NULL),
 (8, 'No hidden fees', 'bottom', NULL, NULL);
@@ -1286,7 +1292,7 @@ CREATE TABLE `frontend_footer_settings` (
   `hero_subtitle` varchar(191) NOT NULL DEFAULT 'Unleash the Power of AI',
   `hero_title` varchar(191) NOT NULL DEFAULT 'Ultimate AI',
   `hero_description` varchar(191) NOT NULL DEFAULT 'All-in-one platform to generate AI content and start making money in minutes.',
-  `hero_scroll_text` varchar(191) NOT NULL DEFAULT 'Discover moda.STUDIO',
+  `hero_scroll_text` varchar(191) NOT NULL DEFAULT 'Discover MagicAI',
   `hero_button` varchar(191) NOT NULL DEFAULT 'Start Making Money',
   `hero_button_url` varchar(191) DEFAULT NULL,
   `hero_image` varchar(191) NOT NULL DEFAULT '/themes/dark/assets/landing-page/banner-img.jpg',
@@ -1295,7 +1301,7 @@ CREATE TABLE `frontend_footer_settings` (
   `footer_text_small` varchar(191) NOT NULL DEFAULT 'Pay once, own forever.',
   `footer_text` varchar(191) NOT NULL DEFAULT 'Unlock your business potential by letting the AI work and generate money for you.',
   `footer_button_text` varchar(191) NOT NULL DEFAULT 'Join our community',
-  `footer_button_url` varchar(191) NOT NULL DEFAULT 'https://codecanyon.net/item/moda.STUDIO-openai-content-text-image-chat-code-generator-as-saas/45408109',
+  `footer_button_url` varchar(191) NOT NULL DEFAULT 'https://codecanyon.net/item/magicai-openai-content-text-image-chat-code-generator-as-saas/45408109',
   `footer_copyright` varchar(191) NOT NULL DEFAULT 'All images are for demo purposes.',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1318,7 +1324,7 @@ CREATE TABLE `frontend_footer_settings` (
 --
 
 INSERT INTO `frontend_footer_settings` (`id`, `header_title`, `header_text`, `hero_subtitle`, `hero_title`, `hero_description`, `hero_scroll_text`, `hero_button`, `hero_button_url`, `hero_image`, `hero_button_type`, `footer_header`, `footer_text_small`, `footer_text`, `footer_button_text`, `footer_button_url`, `footer_copyright`, `created_at`, `updated_at`, `hero_title_text_rotator`, `sign_in`, `join_hub`, `floating_button_small_text`, `floating_button_bold_text`, `floating_button_link`, `floating_button_active`, `footer_text_color`, `no_credit_cart_required`, `faster_content_creation`, `over_5000_businesses`, `join_the_ranks`) VALUES
-(1, 'Limited Offer', 'Sign up and receive 20% bonus discount on checkout.', 'Unleash the Power of AI', 'Ultimate AI', 'All-in-one platform to generate AI content and start making money in minutes.', 'Discover moda.STUDIO', 'Start Making Money', NULL, '/themes/dark/assets/landing-page/banner-img.jpg', 1, 'Start your free trial.', 'Pay once, own forever.', 'Unlock your business potential by letting the AI work and generate money for you.', 'Join our community', 'https://codecanyon.net/item/moda.STUDIO-openai-content-text-image-chat-code-generator-as-saas/45408109', 'All images are for demo purposes.', '2025-12-23 12:44:45', '2025-12-23 12:44:45', 'Generator,Chatbot,Assistant', 'Sign In', 'Join Hub', NULL, NULL, NULL, 0, NULL, 'No credit cart required.', '<span class=\"font-heading text-[1.857em]/[1em] font-bold\">10x</span>Faster Content Creation', 'over <u>5000+</u> businesses trust us to boost their social media precense', NULL);
+(1, 'Limited Offer', 'Sign up and receive 20% bonus discount on checkout.', 'Unleash the Power of AI', 'Ultimate AI', 'All-in-one platform to generate AI content and start making money in minutes.', 'Discover MagicAI', 'Start Making Money', NULL, '/themes/dark/assets/landing-page/banner-img.jpg', 1, 'Start your free trial.', 'Pay once, own forever.', 'Unlock your business potential by letting the AI work and generate money for you.', 'Join our community', 'https://codecanyon.net/item/magicai-openai-content-text-image-chat-code-generator-as-saas/45408109', 'All images are for demo purposes.', '2025-12-23 12:44:45', '2025-12-23 12:44:45', 'Generator,Chatbot,Assistant', 'Sign In', 'Join Hub', NULL, NULL, NULL, 0, NULL, 'No credit cart required.', '<span class=\"font-heading text-[1.857em]/[1em] font-bold\">10x</span>Faster Content Creation', 'over <u>5000+</u> businesses trust us to boost their social media precense', NULL);
 
 -- --------------------------------------------------------
 
@@ -1376,8 +1382,8 @@ CREATE TABLE `frontend_generators` (
 INSERT INTO `frontend_generators` (`id`, `menu_title`, `subtitle_one`, `subtitle_two`, `title`, `text`, `image`, `image_title`, `image_subtitle`, `color`, `created_at`, `updated_at`, `icon`) VALUES
 (1, 'AI Text Generator', 'Say goodbye to writer\'s block', 'AI', 'Intelligent Writing Assistant', 'Writer is designed to help you <strong>generate high-quality texts instantly</strong>, without breaking a sweat. With our intuitive interface and powerful features, you can easily edit, export, or publish your AI-generated result.', 'assets/img/site/text-generator.jpg', 'Generate, edit, export.', 'Powered by OpenAI.', '#EADDF9', '2023-06-02 15:33:09', '2023-06-02 15:33:09', NULL),
 (2, 'AI Image Generator', 'Unleash your creativity', 'AI', 'Create eye-catching images and graphics.', 'Generate high-quality images for a wide range of applications.', 'assets/img/site/image-generator.jpg', 'Imagine, Generate, Publish.', 'Powered by Dall-E.', '#DFE5EB', '2023-06-02 15:33:09', '2023-06-02 15:33:09', NULL),
-(3, 'AI Code Generator', 'The future of development', 'AI', 'Generate high-quality code in no time.', 'moda.STUDIO is designed to make coding faster, easier, and more efficient than ever before. Whether you’re a seasoned developer or a coding newbie, our tool will help you streamline your coding process and get your projects up and running in no time.', 'assets/img/site/code-generator.jpg', 'Fix. Improve. Generate.', 'Powered by OpenAI.', '#DDE6FF', '2023-06-02 15:33:09', '2023-06-02 15:33:09', NULL),
-(4, 'AI Chat Bot', 'Intuitive / Humanlike Chatbot', 'AI', 'Meet your next virtual assistant.', 'Get instant answers to your questions, no matter the topic. Whether you’re looking to book a reservation, get product recommendations, or just chat about the weather, moda.STUDIO is always ready and willing to help.', 'assets/img/site/ai-chat.jpg', 'Chat, Solve, Repeat.', 'Powered by OpenAI.', '#F9DDDF', '2023-06-02 15:33:09', '2023-06-02 15:33:09', NULL),
+(3, 'AI Code Generator', 'The future of development', 'AI', 'Generate high-quality code in no time.', 'MagicAI is designed to make coding faster, easier, and more efficient than ever before. Whether you’re a seasoned developer or a coding newbie, our tool will help you streamline your coding process and get your projects up and running in no time.', 'assets/img/site/code-generator.jpg', 'Fix. Improve. Generate.', 'Powered by OpenAI.', '#DDE6FF', '2023-06-02 15:33:09', '2023-06-02 15:33:09', NULL),
+(4, 'AI Chat Bot', 'Intuitive / Humanlike Chatbot', 'AI', 'Meet your next virtual assistant.', 'Get instant answers to your questions, no matter the topic. Whether you’re looking to book a reservation, get product recommendations, or just chat about the weather, MagicAI is always ready and willing to help.', 'assets/img/site/ai-chat.jpg', 'Chat, Solve, Repeat.', 'Powered by OpenAI.', '#F9DDDF', '2023-06-02 15:33:09', '2023-06-02 15:33:09', NULL),
 (5, 'AI Speech To Text', 'Say goodbye to writer\'s block', 'AI', 'Transcribe your speech into text.', 'Accurately transcribe your recordings in just minutes. With our user-friendly interface, you can upload your files and have them transcribed in a matter of clicks.', 'assets/img/site/ai-speech.jpg', 'Upload, Analyze, Generate.', 'Powered by OpenAI.', '#FFF8EB', '2023-06-02 15:33:09', '2023-06-02 15:33:09', NULL),
 (6, 'Empower Your Message with AI', 'Say goodbye to writer\'s block', 'AI', 'Transcribe your speech into text.', 'From captivating commercials to engaging narrations, our AI voice will bring your words to life. With its seamless delivery, natural intonation, and unrivaled versatility, our AI VoiceOver is the perfect choice for any project. Effortlessly choose from a variety of voices and languages while adjusting the pace to your preference.', 'assets/img/site/voiceover.jpg', 'Upload, Analyze, Generate.', 'Powered by OpenAI.', '#FFF8EB', '2023-06-02 15:33:09', '2023-06-02 15:33:09', NULL);
 
@@ -1400,7 +1406,7 @@ CREATE TABLE `frontend_sections_statuses_titles` (
   `custom_templates_subtitle_two` varchar(191) DEFAULT 'Prompts',
   `custom_templates_title` varchar(191) DEFAULT 'Custom Templates.',
   `custom_templates_learn_more_link_url` varchar(191) NOT NULL DEFAULT '#templates',
-  `custom_templates_learn_more_link` varchar(191) NOT NULL DEFAULT 'Discover moda.STUDIO',
+  `custom_templates_learn_more_link` varchar(191) NOT NULL DEFAULT 'Discover MagicAI',
   `custom_templates_description` text DEFAULT NULL,
   `tools_active` tinyint(1) NOT NULL DEFAULT 1,
   `tools_title` varchar(191) DEFAULT 'Magic Tools.',
@@ -1453,7 +1459,7 @@ CREATE TABLE `frontend_sections_statuses_titles` (
 --
 
 INSERT INTO `frontend_sections_statuses_titles` (`id`, `features_active`, `features_title`, `features_subtitle`, `features_description`, `generators_active`, `who_is_for_active`, `custom_templates_active`, `custom_templates_subtitle_one`, `custom_templates_subtitle_two`, `custom_templates_title`, `custom_templates_learn_more_link_url`, `custom_templates_learn_more_link`, `custom_templates_description`, `tools_active`, `tools_title`, `tools_subtitle`, `tools_description`, `how_it_works_active`, `how_it_works_title`, `how_it_works_link_label`, `how_it_works_link`, `how_it_works_description`, `how_it_works_subtitle`, `testimonials_active`, `testimonials_title`, `testimonials_description`, `testimonials_subtitle_one`, `testimonials_subtitle_two`, `pricing_active`, `pricing_title`, `pricing_subtitle`, `pricing_description`, `pricing_save_percent`, `faq_active`, `faq_title`, `faq_subtitle`, `faq_text_one`, `faq_text_two`, `created_at`, `updated_at`, `preheader_active`, `blog_active`, `blog_title`, `blog_subtitle`, `blog_posts_per_page`, `blog_button_text`, `blog_a_title`, `blog_a_subtitle`, `blog_a_description`, `blog_a_posts_per_page`, `marquee_items`, `generators_subtitle`, `generators_title`, `generators_description`, `plan_footer_text`, `advanced_features_section_title`, `advanced_features_section_description`) VALUES
-(1, 1, 'The future of AI.', 'Unleash the Power of AI', NULL, 1, 1, 1, 'Custom', 'Prompts', 'Custom Templates.', '#templates', 'Discover moda.STUDIO', NULL, 1, 'Magic Tools.', 'Unleash the Power of AI', NULL, 1, 'So, how does it work?', 'Learn More', '#', 'To create content quickly and effectively, <strong>here are the steps you can follow:</strong>', 'Unleash the Power of AI', 1, 'Trusted by millions.', 'Content and <strong>kickstart your earnings</strong> in minutes  kickstart your earnings in minutes', 'Testimonials', 'Trustpilot', 1, 'Flexible Pricing.', 'Unleash the Power of AI', NULL, 'Save 30%', 1, 'Have a question?', 'Our support team will get assistance from AI-powered suggestions, making it quicker than ever to handle support requests.', 'FAQ', 'Help Center', '2025-12-23 12:44:52', '2025-12-23 12:44:52', 1, 0, 'Latest News', 'Stay up-to-date', 3, 'Show more', 'Blog Posts', 'Latest News', 'Welcome to our cozy corner of the internet, where you will find a delightful collection of our heartfelt and thought-provoking blog posts.', 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 1, 'The future of AI.', 'Unleash the Power of AI', NULL, 1, 1, 1, 'Custom', 'Prompts', 'Custom Templates.', '#templates', 'Discover MagicAI', NULL, 1, 'Magic Tools.', 'Unleash the Power of AI', NULL, 1, 'So, how does it work?', 'Learn More', '#', 'To create content quickly and effectively, <strong>here are the steps you can follow:</strong>', 'Unleash the Power of AI', 1, 'Trusted by millions.', 'Content and <strong>kickstart your earnings</strong> in minutes  kickstart your earnings in minutes', 'Testimonials', 'Trustpilot', 1, 'Flexible Pricing.', 'Unleash the Power of AI', NULL, 'Save 30%', 1, 'Have a question?', 'Our support team will get assistance from AI-powered suggestions, making it quicker than ever to handle support requests.', 'FAQ', 'Help Center', '2025-12-23 12:44:52', '2025-12-23 12:44:52', 1, 0, 'Latest News', 'Stay up-to-date', 3, 'Show more', 'Blog Posts', 'Latest News', 'Welcome to our cozy corner of the internet, where you will find a delightful collection of our heartfelt and thought-provoking blog posts.', 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1469,8 +1475,8 @@ CREATE TABLE `frontend_tools` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `buy_link` varchar(191) NOT NULL DEFAULT 'Start Making Money',
-  `buy_link_url` varchar(191) NOT NULL DEFAULT 'https://codecanyon.net/item/moda.STUDIO-openai-content-text-image-chat-code-generator-as-saas/45408109',
-  `learn_more_link` varchar(191) NOT NULL DEFAULT 'Discover moda.STUDIO',
+  `buy_link_url` varchar(191) NOT NULL DEFAULT 'https://codecanyon.net/item/magicai-openai-content-text-image-chat-code-generator-as-saas/45408109',
+  `learn_more_link` varchar(191) NOT NULL DEFAULT 'Discover MagicAI',
   `learn_more_link_url` varchar(191) NOT NULL DEFAULT '#templates'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1479,12 +1485,12 @@ CREATE TABLE `frontend_tools` (
 --
 
 INSERT INTO `frontend_tools` (`id`, `title`, `description`, `image`, `created_at`, `updated_at`, `buy_link`, `buy_link_url`, `learn_more_link`, `learn_more_link_url`) VALUES
-(1, 'Advanced Dashboard', 'Track a wide range of data points, including user traffic and sales.', 'upload/images/frontent/tools/v6sP-test.png', '2023-05-29 14:18:13', '2023-05-29 14:18:31', 'Start Making Money', 'https://codecanyon.net/item/moda.STUDIO-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover moda.STUDIO', '#templates'),
-(2, 'Payment Gateways', 'Securely process credit card or other electronic payment methods.', 'upload/images/frontent/tools/Payments100.jpg', '2023-05-29 14:19:49', '2023-05-29 14:19:49', 'Start Making Money', 'https://codecanyon.net/item/moda.STUDIO-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover moda.STUDIO', '#templates'),
-(3, 'Multilingual', 'Ability to understand and generate content in different languages.', 'upload/images/frontent/tools/NZBW-multilingual.png', '2023-05-29 14:20:18', '2023-05-29 14:20:18', 'Start Making Money', 'https://codecanyon.net/item/moda.STUDIO-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover moda.STUDIO', '#templates'),
-(4, 'Affiliate System', 'Ability to invite friends, and earn commission from their first purchase.', 'upload/images/frontent/tools/RAhq-affiliate-system.png', '2023-05-29 14:20:49', '2023-05-29 14:20:49', 'Start Making Money', 'https://codecanyon.net/item/moda.STUDIO-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover moda.STUDIO', '#templates'),
-(5, 'Easy Export', 'Export generated content as plain text, PDF, Word or HTML easily.', 'upload/images/frontent/tools/mPWB-easy-export.png', '2023-05-29 14:21:05', '2023-05-29 14:21:05', 'Start Making Money', 'https://codecanyon.net/item/moda.STUDIO-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover moda.STUDIO', '#templates'),
-(6, 'Support Platform', 'Access and mage support tickets from your dashboard.', 'upload/images/frontent/tools/rIwa-support-platform.png', '2023-05-29 14:21:21', '2023-05-29 14:21:21', 'Start Making Money', 'https://codecanyon.net/item/moda.STUDIO-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover moda.STUDIO', '#templates');
+(1, 'Advanced Dashboard', 'Track a wide range of data points, including user traffic and sales.', 'upload/images/frontent/tools/v6sP-test.png', '2023-05-29 14:18:13', '2023-05-29 14:18:31', 'Start Making Money', 'https://codecanyon.net/item/magicai-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover MagicAI', '#templates'),
+(2, 'Payment Gateways', 'Securely process credit card or other electronic payment methods.', 'upload/images/frontent/tools/Payments100.jpg', '2023-05-29 14:19:49', '2023-05-29 14:19:49', 'Start Making Money', 'https://codecanyon.net/item/magicai-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover MagicAI', '#templates'),
+(3, 'Multilingual', 'Ability to understand and generate content in different languages.', 'upload/images/frontent/tools/NZBW-multilingual.png', '2023-05-29 14:20:18', '2023-05-29 14:20:18', 'Start Making Money', 'https://codecanyon.net/item/magicai-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover MagicAI', '#templates'),
+(4, 'Affiliate System', 'Ability to invite friends, and earn commission from their first purchase.', 'upload/images/frontent/tools/RAhq-affiliate-system.png', '2023-05-29 14:20:49', '2023-05-29 14:20:49', 'Start Making Money', 'https://codecanyon.net/item/magicai-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover MagicAI', '#templates'),
+(5, 'Easy Export', 'Export generated content as plain text, PDF, Word or HTML easily.', 'upload/images/frontent/tools/mPWB-easy-export.png', '2023-05-29 14:21:05', '2023-05-29 14:21:05', 'Start Making Money', 'https://codecanyon.net/item/magicai-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover MagicAI', '#templates'),
+(6, 'Support Platform', 'Access and mage support tickets from your dashboard.', 'upload/images/frontent/tools/rIwa-support-platform.png', '2023-05-29 14:21:21', '2023-05-29 14:21:21', 'Start Making Money', 'https://codecanyon.net/item/magicai-openai-content-text-image-chat-code-generator-as-saas/45408109', 'Discover MagicAI', '#templates');
 
 -- --------------------------------------------------------
 
@@ -1682,7 +1688,7 @@ CREATE TABLE `introductions` (
 --
 
 INSERT INTO `introductions` (`id`, `key`, `intro`, `order`, `created_at`, `updated_at`, `status`, `title`, `file_path`, `file_url`, `file_type`, `parent_id`) VALUES
-(1, 'initialize', 'Welcome to moda.STUDIO. Let\'s take a quick tour', 1, '2025-12-23 12:44:51', '2025-12-23 12:44:51', 1, NULL, NULL, NULL, NULL, NULL),
+(1, 'initialize', 'Welcome to MagicAI. Let\'s take a quick tour', 1, '2025-12-23 12:44:51', '2025-12-23 12:44:51', 1, NULL, NULL, NULL, NULL, NULL),
 (2, 'ai_writer', 'A great tool for using the Text Generator & AI Copywriting Assistant.', 2, '2025-12-23 12:44:51', '2025-12-23 12:44:51', 1, NULL, NULL, NULL, NULL, NULL),
 (3, 'ai_image', 'Create stunning images with just a few words.', 3, '2025-12-23 12:44:51', '2025-12-23 12:44:51', 1, NULL, NULL, NULL, NULL, NULL),
 (4, 'ai_pdf', 'Simply upload a PDF, find specific information. extract key insights or summarize the entire document.', 4, '2025-12-23 12:44:51', '2025-12-23 12:44:51', 1, NULL, NULL, NULL, NULL, NULL),
@@ -2567,10 +2573,10 @@ CREATE TABLE `pages` (
 --
 
 INSERT INTO `pages` (`id`, `title`, `content`, `slug`, `status`, `created_at`, `updated_at`, `titlebar_status`, `is_custom`, `show_on_footer`) VALUES
-(1, 'About', '<p><img style=\"display: block; border-radius: 25px; margin-left: auto; margin-right: auto;\" src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/img-1.jpg\" alt=\"\" width=\"1450\" height=\"761\"></p>\r\n<p style=\"text-align: center;\"><span class=\"highlight\">About Us</span></p>\r\n<h1 style=\"text-align: center;\">Shaping the future 🏔�?/h1>\r\n<p class=\"leading\" style=\"max-width: 80%; margin-left: auto; margin-right: auto; text-align: center;\">Whether&nbsp;you&rsquo;re&nbsp;a&nbsp;content&nbsp;creator,&nbsp;business&nbsp;owner,&nbsp;or&nbsp;student, <span style=\"color: rgb(89, 89, 89);\">our&nbsp;text&nbsp;generator&nbsp;is&nbsp;an&nbsp;essential&nbsp;tool&nbsp;for&nbsp;boosting&nbsp;your&nbsp;productivity.</span></p>\r\n<hr>\r\n<p>&nbsp;</p>\r\n<p><span class=\"highlight\">Who Are We<br></span></p>\r\n<p class=\"leading\">At moda.STUDIO, we are passionate about harnessing the power of artificial intelligence to unlock limitless creativity and efficiency.<span style=\"color: rgb(89, 89, 89);\"> Our cutting-edge AI Generators are designed to revolutionize the way you create, streamline your workflows, and supercharge your productivity.</span></p>\r\n<p>Our mission is to empower individuals and businesses to unleash their creative potential and achieve extraordinary results.</p>\r\n<p>We believe that AI has the ability to augment human capabilities, enhance decision-making processes, and accelerate innovation.</p>\r\n<p>By developing state-of-the-art AI Generators, we aim to democratize access to advanced AI technologies, enabling users from all backgrounds to excel in their creative endeavors.</p>\r\n<p>&nbsp;</p>\r\n<hr>\r\n<p>&nbsp;</p>\r\n<p><span class=\"highlight\">Invite a Friend</span></p>\r\n<h3>Our Mission</h3>\r\n<p class=\"leading\">We pride ourselves on offering AI Generators that are unmatched in their quality, <span style=\"color: rgb(89, 89, 89);\">versatility, and ease of use. Here&rsquo;s what sets us apart from the competition:</span></p>\r\n<p>With our AI Generators, the possibilities are endless. From generating compelling marketing copy and designing stunning visuals to automating data analysis and creating personalized user experiences, our tools will transform the way you work and help you achieve remarkable outcomes.</p>\r\n<p>Join our community of innovators, creators, and forward-thinkers who are leveraging the power of AI to revolutionize their industries. Start your journey with moda.STUDIO today and unlock the full potential of AI Generators.</p>\r\n<p>Ready to experience the future of creativity? Sign up now and embark on an exciting adventure of limitless possibilities.</p>\r\n<p>&nbsp;</p>\r\n<p style=\"text-align: center;\"><span class=\"info-box\">Still have a question? <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">Browse documentation</a></span> or <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">submit a ticket</a></span>.</span></p>\r\n<p>&nbsp;</p>\r\n<hr>\r\n<p>&nbsp;</p>\r\n<table style=\"border-collapse: collapse; width: 100%; border-width: 0px; border-style: none;\" border=\"1\"><colgroup><col style=\"width: 20%;\"><col style=\"width: 20%;\"><col style=\"width: 20%;\"><col style=\"width: 20%;\"><col style=\"width: 20%;\"></colgroup>\r\n<tbody>\r\n<tr style=\"text-align: center;\">\r\n<td style=\"border-width: 0px; text-align: center;\"><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-143406.svg\" alt=\"\" width=\"79\" height=\"28\"></td>\r\n<td style=\"border-width: 0px; text-align: center;\"><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-159906.svg\" alt=\"\" width=\"48\" height=\"48\"></td>\r\n<td style=\"border-width: 0px; text-align: center;\"><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-159907.svg\" alt=\"\" width=\"55\" height=\"34\"></td>\r\n<td style=\"border-width: 0px; text-align: center;\"><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-159908.svg\" alt=\"\" width=\"47\" height=\"48\"></td>\r\n<td style=\"border-width: 0px; text-align: center;\"><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-159909.svg\" alt=\"\" width=\"80\" height=\"20\"></td>\r\n</tr>\r\n</tbody>\r\n</table>', 'custom-about', 0, '2024-02-13 03:46:38', '2024-02-14 14:11:26', 0, 1, 0),
+(1, 'About', '<p><img style=\"display: block; border-radius: 25px; margin-left: auto; margin-right: auto;\" src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/img-1.jpg\" alt=\"\" width=\"1450\" height=\"761\"></p>\r\n<p style=\"text-align: center;\"><span class=\"highlight\">About Us</span></p>\r\n<h1 style=\"text-align: center;\">Shaping the future 🏔️</h1>\r\n<p class=\"leading\" style=\"max-width: 80%; margin-left: auto; margin-right: auto; text-align: center;\">Whether&nbsp;you&rsquo;re&nbsp;a&nbsp;content&nbsp;creator,&nbsp;business&nbsp;owner,&nbsp;or&nbsp;student, <span style=\"color: rgb(89, 89, 89);\">our&nbsp;text&nbsp;generator&nbsp;is&nbsp;an&nbsp;essential&nbsp;tool&nbsp;for&nbsp;boosting&nbsp;your&nbsp;productivity.</span></p>\r\n<hr>\r\n<p>&nbsp;</p>\r\n<p><span class=\"highlight\">Who Are We<br></span></p>\r\n<p class=\"leading\">At MagicAI, we are passionate about harnessing the power of artificial intelligence to unlock limitless creativity and efficiency.<span style=\"color: rgb(89, 89, 89);\"> Our cutting-edge AI Generators are designed to revolutionize the way you create, streamline your workflows, and supercharge your productivity.</span></p>\r\n<p>Our mission is to empower individuals and businesses to unleash their creative potential and achieve extraordinary results.</p>\r\n<p>We believe that AI has the ability to augment human capabilities, enhance decision-making processes, and accelerate innovation.</p>\r\n<p>By developing state-of-the-art AI Generators, we aim to democratize access to advanced AI technologies, enabling users from all backgrounds to excel in their creative endeavors.</p>\r\n<p>&nbsp;</p>\r\n<hr>\r\n<p>&nbsp;</p>\r\n<p><span class=\"highlight\">Invite a Friend</span></p>\r\n<h3>Our Mission</h3>\r\n<p class=\"leading\">We pride ourselves on offering AI Generators that are unmatched in their quality, <span style=\"color: rgb(89, 89, 89);\">versatility, and ease of use. Here&rsquo;s what sets us apart from the competition:</span></p>\r\n<p>With our AI Generators, the possibilities are endless. From generating compelling marketing copy and designing stunning visuals to automating data analysis and creating personalized user experiences, our tools will transform the way you work and help you achieve remarkable outcomes.</p>\r\n<p>Join our community of innovators, creators, and forward-thinkers who are leveraging the power of AI to revolutionize their industries. Start your journey with MagicAI today and unlock the full potential of AI Generators.</p>\r\n<p>Ready to experience the future of creativity? Sign up now and embark on an exciting adventure of limitless possibilities.</p>\r\n<p>&nbsp;</p>\r\n<p style=\"text-align: center;\"><span class=\"info-box\">Still have a question? <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">Browse documentation</a></span> or <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">submit a ticket</a></span>.</span></p>\r\n<p>&nbsp;</p>\r\n<hr>\r\n<p>&nbsp;</p>\r\n<table style=\"border-collapse: collapse; width: 100%; border-width: 0px; border-style: none;\" border=\"1\"><colgroup><col style=\"width: 20%;\"><col style=\"width: 20%;\"><col style=\"width: 20%;\"><col style=\"width: 20%;\"><col style=\"width: 20%;\"></colgroup>\r\n<tbody>\r\n<tr style=\"text-align: center;\">\r\n<td style=\"border-width: 0px; text-align: center;\"><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-143406.svg\" alt=\"\" width=\"79\" height=\"28\"></td>\r\n<td style=\"border-width: 0px; text-align: center;\"><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-159906.svg\" alt=\"\" width=\"48\" height=\"48\"></td>\r\n<td style=\"border-width: 0px; text-align: center;\"><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-159907.svg\" alt=\"\" width=\"55\" height=\"34\"></td>\r\n<td style=\"border-width: 0px; text-align: center;\"><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-159908.svg\" alt=\"\" width=\"47\" height=\"48\"></td>\r\n<td style=\"border-width: 0px; text-align: center;\"><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-159909.svg\" alt=\"\" width=\"80\" height=\"20\"></td>\r\n</tr>\r\n</tbody>\r\n</table>', 'custom-about', 0, '2024-02-13 03:46:38', '2024-02-14 14:11:26', 0, 1, 0),
 (2, 'Privacy and Policy', '<p style=\"text-align: center;\"><span class=\"highlight\">Privacy Policy</span></p>\r\n<h1 style=\"text-align: center;\">Privacy and Policy</h1>\r\n<p class=\"leading\" style=\"max-width: 80%; margin-left: auto; margin-right: auto; text-align: center;\">With our tool, you can generate text in seconds, freeing up your <span style=\"color: rgb(89, 89, 89);\">time to focus on other important tasks that matter the most.</span></p>\r\n<p><img style=\"display: block; border-radius: 25px; margin-left: auto; margin-right: auto;\" src=\"https://gcdnb.pbrd.co/images/D92RJsyqJdHy.png?o=1\" alt=\"\" width=\"1450\" height=\"761\"></p>\r\n<p>&nbsp;</p>\r\n<p>&nbsp;</p>\r\n<p><span class=\"highlight\">Privacy Policy</span></p>\r\n<p class=\"leading\">Our newest theme update brings modern and clean design templates to Hub Collection which is already one of the biggest template collections ever built. <span style=\"color: rgb(89, 89, 89);\">These layouts are designed in a simple and unique style that can improve your daily workflow and save you an enormous amount of time.</span></p>\r\n<p>Test built the Liquid app as a Commercial app. This Service is provided by Test and is intended for use as is.</p>\r\n<p>If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.</p>\r\n<p>The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which are accessible at Liquid unless otherwise defined in this Privacy Policy.</p>\r\n<p>&nbsp;</p>\r\n<hr>\r\n<h5>&nbsp;</h5>\r\n<h5>Fair Use</h5>\r\n<p>For a better experience, while using our Service, we may require you to provide us with certain personally identifiable information, including but not limited to Test. The information that we request will be retained by us and used as described in this privacy policy.</p>\r\n<p>The app does use third-party services that may collect information used to identify you.</p>\r\n<p>Link to the privacy policy of third-party service providers used by the app</p>\r\n<p>We want to inform you that whenever you use our Service, in a case of an error in the app we collect data and information (through third-party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol (&ldquo;IP&rdquo;) address, device name, operating system version, the configuration of the app when utilizing our Service, the time and date of your use of the Service, and other statistics.</p>\r\n<p>&nbsp;</p>\r\n<h5 class=\"lqd-text-el m-0 p-0\"><span class=\"lqd-text-item relative elementor-repeater-item-c3d0556\">Cookies</span></h5>\r\n<p>Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are sent to your browser from the websites that you visit and are stored on your device&rsquo;s internal memory.</p>\r\n<p>This Service does not use these &ldquo;cookies&rdquo; explicitly. However, the app may use third-party code and libraries that use &ldquo;cookies&rdquo; to collect information and improve their services. You have the option to either accept or refuse</p>\r\n<p>&nbsp;</p>\r\n<p style=\"text-align: center;\"><span class=\"info-box\">Still have a question? <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">Browse documentation</a></span> or <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">submit a ticket</a>.</span></span></p>', 'custom-privacy-and-policy', 0, '2024-02-13 03:48:09', '2024-02-14 14:15:29', 0, 1, 0),
-(3, 'How It Works', '<p style=\"text-align: center;\">Trusted by these amazing companies</p>\r\n<table style=\"border-collapse: collapse; width: 100.068%; border-width: 0px;\" border=\"1\"><colgroup><col style=\"width: 25.0342%;\"><col style=\"width: 25.0342%;\"><col style=\"width: 25.0342%;\"><col style=\"width: 25.0342%;\"></colgroup>\r\n<tbody>\r\n<tr>\r\n<td style=\"border-width: 0px;\"><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/nike.svg\" alt=\"\" width=\"88\" height=\"32\"></td>\r\n<td style=\"border-width: 0px;\"><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-133531.svg\" alt=\"\" width=\"86\" height=\"37\"></td>\r\n<td style=\"border-width: 0px;\"><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-46878.svg\" alt=\"\" width=\"49\" height=\"35\"></td>\r\n<td style=\"border-width: 0px;\"><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/volkswagen-1.svg\" alt=\"\" width=\"53\" height=\"53\"></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p class=\"leading\" style=\"text-align: center;\">&nbsp;</p>\r\n<p class=\"leading\" style=\"text-align: center;\">At moda.STUDIO, we are passionate about harnessing the power of artificial intelligence to unlock limitless creativity and efficiency.&nbsp;<span style=\"color: rgb(89, 89, 89);\">Our cutting-edge AI Generators are designed to revolutionize the way you create, streamline your workflows, and supercharge your productivity.</span></p>\r\n<p class=\"leading\" style=\"text-align: center;\">&nbsp;</p>\r\n<p><span class=\"num-block\">1</span></p>\r\n<h4>Select a Template</h4>\r\n<p>Our mission is to empower individuals and businesses to unleash their creative potential and achieve extraordinary results. We believe that AI has the ability to augment human capabilities, enhance decision-making processes, and accelerate innovation.</p>\r\n<p>&nbsp;</p>\r\n<p><span class=\"num-block\">2</span></p>\r\n<h4>Explain your idea</h4>\r\n<p>AI generators are sophisticated systems trained on vast amounts of data to learn patterns, understand context, and generate original content. They are designed to mimic human creativity by analyzing existing examples.</p>\r\n<p>&nbsp;</p>\r\n<p><span class=\"num-block\">3</span></p>\r\n<h4>Done!</h4>\r\n<p>By developing state-of-the-art AI Generators, we aim to democratize access to advanced AI technologies, enabling users from all backgrounds to excel in their creative endeavors.</p>\r\n<p>&nbsp;</p>\r\n<p style=\"text-align: center;\"><span class=\"info-box\">Still have a question? <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">Browse documentation</a></span> or <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">submit a ticket</a>.</span></span></p>\r\n<p>&nbsp;</p>\r\n<p><img style=\"border-radius: 25px;\" src=\"https://gcdnb.pbrd.co/images/OZmBXkQ5MQyH.png?o=1\" alt=\"How it works\" width=\"1620\" height=\"870\"></p>\r\n<p>&nbsp;</p>\r\n<p><span class=\"highlight\">Invite a Friend</span></p>\r\n<h4>Affiliate System.</h4>\r\n<p class=\"leading\">We pride ourselves on offering AI Generators that are unmatched in their quality, <span style=\"color: rgb(89, 89, 89);\">versatility, and ease of use. Here&rsquo;s what sets us apart from the competition:</span></p>\r\n<h5>Done!</h5>\r\n<p>Join our community of innovators, creators, and forward-thinkers who are leveraging the power of AI to revolutionize their industries. Start your journey with moda.STUDIO today and unlock the full potential of AI Generators.</p>\r\n<p>&nbsp;</p>\r\n<p><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/icon-2.jpg\" alt=\"\" width=\"48\" height=\"48\"></p>\r\n<h5>Invite your Friend</h5>\r\n<p>With our AI Generators, the possibilities are endless. From generating compelling marketing copy and designing stunning visuals to automating data analysis and creating personalized user experiences.</p>\r\n<p>&nbsp;</p>\r\n<p><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/icon-3.jpg\" alt=\"\" width=\"48\" height=\"48\"></p>\r\n<h5>Make Money</h5>\r\n<p>Ready to experience the future of creativity? Sign up now and embark on an exciting adventure of limitless possibilities.</p>\r\n<p>&nbsp;</p>\r\n<p>&nbsp;</p>\r\n<p style=\"text-align: center;\"><span class=\"info-box\">Still have a question? <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">Browse documentation</a></span> or <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">submit a ticket</a>.</span></span></p>', 'custom-how-it-works', 0, '2024-02-13 03:49:08', '2024-02-14 13:37:35', 1, 1, 0),
-(4, 'Features', '<p><img style=\"border-radius: 25px;\" src=\"https://gcdnb.pbrd.co/images/iTA0Xv7SHrVp.png?o=1\" alt=\"About us\" width=\"1526�?times;\" height=\"866\"></p>\r\n<p>&nbsp;</p>\r\n<p><span class=\"highlight\">Introducing</span></p>\r\n<h3 class=\"lqd-text-el m-0 p-0\"><span class=\"lqd-text-item relative elementor-repeater-item-eaff06a\">Custom Chatbots.</span></h3>\r\n<p class=\"leading\">We pride ourselves on offering AI Generators that are unmatched in their quality, <span style=\"color: rgb(89, 89, 89);\">versatility, and ease of use. Here&rsquo;s what sets us apart from the competition:</span></p>\r\n<p>With our AI Generators, the possibilities are endless. From generating compelling marketing copy and designing stunning visuals to automating data analysis and creating personalized user experiences, our tools will transform the way you work and help you achieve remarkable outcomes.</p>\r\n<p>Join our community of innovators, creators, and forward-thinkers who are leveraging the power of AI to revolutionize their industries. Start your journey with moda.STUDIO today and unlock the full potential of AI Generators.</p>\r\n<p>Ready to experience the future of creativity? Sign up now and embark on an exciting adventure of limitless possibilities.</p>\r\n<ul style=\"list-style: disc; list-style-position: inside;\">\r\n<li><strong>New &mdash;</strong>&nbsp;AI Voiceover in 30 Languages</li>\r\n<li><strong>New &mdash;</strong>&nbsp;Custom Avatar for Chatbot</li>\r\n<li><strong>Improved &mdash;</strong>&nbsp;Auto Translate</li>\r\n</ul>', 'custom-features', 0, '2024-02-14 12:27:38', '2024-02-14 13:25:50', 1, 1, 0);
+(3, 'How It Works', '<p style=\"text-align: center;\">Trusted by these amazing companies</p>\r\n<table style=\"border-collapse: collapse; width: 100.068%; border-width: 0px;\" border=\"1\"><colgroup><col style=\"width: 25.0342%;\"><col style=\"width: 25.0342%;\"><col style=\"width: 25.0342%;\"><col style=\"width: 25.0342%;\"></colgroup>\r\n<tbody>\r\n<tr>\r\n<td style=\"border-width: 0px;\"><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/nike.svg\" alt=\"\" width=\"88\" height=\"32\"></td>\r\n<td style=\"border-width: 0px;\"><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-133531.svg\" alt=\"\" width=\"86\" height=\"37\"></td>\r\n<td style=\"border-width: 0px;\"><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/Path-46878.svg\" alt=\"\" width=\"49\" height=\"35\"></td>\r\n<td style=\"border-width: 0px;\"><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/volkswagen-1.svg\" alt=\"\" width=\"53\" height=\"53\"></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p class=\"leading\" style=\"text-align: center;\">&nbsp;</p>\r\n<p class=\"leading\" style=\"text-align: center;\">At MagicAI, we are passionate about harnessing the power of artificial intelligence to unlock limitless creativity and efficiency.&nbsp;<span style=\"color: rgb(89, 89, 89);\">Our cutting-edge AI Generators are designed to revolutionize the way you create, streamline your workflows, and supercharge your productivity.</span></p>\r\n<p class=\"leading\" style=\"text-align: center;\">&nbsp;</p>\r\n<p><span class=\"num-block\">1</span></p>\r\n<h4>Select a Template</h4>\r\n<p>Our mission is to empower individuals and businesses to unleash their creative potential and achieve extraordinary results. We believe that AI has the ability to augment human capabilities, enhance decision-making processes, and accelerate innovation.</p>\r\n<p>&nbsp;</p>\r\n<p><span class=\"num-block\">2</span></p>\r\n<h4>Explain your idea</h4>\r\n<p>AI generators are sophisticated systems trained on vast amounts of data to learn patterns, understand context, and generate original content. They are designed to mimic human creativity by analyzing existing examples.</p>\r\n<p>&nbsp;</p>\r\n<p><span class=\"num-block\">3</span></p>\r\n<h4>Done!</h4>\r\n<p>By developing state-of-the-art AI Generators, we aim to democratize access to advanced AI technologies, enabling users from all backgrounds to excel in their creative endeavors.</p>\r\n<p>&nbsp;</p>\r\n<p style=\"text-align: center;\"><span class=\"info-box\">Still have a question? <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">Browse documentation</a></span> or <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">submit a ticket</a>.</span></span></p>\r\n<p>&nbsp;</p>\r\n<p><img style=\"border-radius: 25px;\" src=\"https://gcdnb.pbrd.co/images/OZmBXkQ5MQyH.png?o=1\" alt=\"How it works\" width=\"1620\" height=\"870\"></p>\r\n<p>&nbsp;</p>\r\n<p><span class=\"highlight\">Invite a Friend</span></p>\r\n<h4>Affiliate System.</h4>\r\n<p class=\"leading\">We pride ourselves on offering AI Generators that are unmatched in their quality, <span style=\"color: rgb(89, 89, 89);\">versatility, and ease of use. Here&rsquo;s what sets us apart from the competition:</span></p>\r\n<h5>Done!</h5>\r\n<p>Join our community of innovators, creators, and forward-thinkers who are leveraging the power of AI to revolutionize their industries. Start your journey with MagicAI today and unlock the full potential of AI Generators.</p>\r\n<p>&nbsp;</p>\r\n<p><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/icon-2.jpg\" alt=\"\" width=\"48\" height=\"48\"></p>\r\n<h5>Invite your Friend</h5>\r\n<p>With our AI Generators, the possibilities are endless. From generating compelling marketing copy and designing stunning visuals to automating data analysis and creating personalized user experiences.</p>\r\n<p>&nbsp;</p>\r\n<p><img src=\"https://aidefault.liquid-themes.com/wp-content/uploads/2023/08/icon-3.jpg\" alt=\"\" width=\"48\" height=\"48\"></p>\r\n<h5>Make Money</h5>\r\n<p>Ready to experience the future of creativity? Sign up now and embark on an exciting adventure of limitless possibilities.</p>\r\n<p>&nbsp;</p>\r\n<p>&nbsp;</p>\r\n<p style=\"text-align: center;\"><span class=\"info-box\">Still have a question? <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">Browse documentation</a></span> or <span style=\"color: rgb(8, 53, 248);\"><a style=\"color: rgb(8, 53, 248);\" href=\"#\">submit a ticket</a>.</span></span></p>', 'custom-how-it-works', 0, '2024-02-13 03:49:08', '2024-02-14 13:37:35', 1, 1, 0),
+(4, 'Features', '<p><img style=\"border-radius: 25px;\" src=\"https://gcdnb.pbrd.co/images/iTA0Xv7SHrVp.png?o=1\" alt=\"About us\" width=\"1526 &times;\" height=\"866\"></p>\r\n<p>&nbsp;</p>\r\n<p><span class=\"highlight\">Introducing</span></p>\r\n<h3 class=\"lqd-text-el m-0 p-0\"><span class=\"lqd-text-item relative elementor-repeater-item-eaff06a\">Custom Chatbots.</span></h3>\r\n<p class=\"leading\">We pride ourselves on offering AI Generators that are unmatched in their quality, <span style=\"color: rgb(89, 89, 89);\">versatility, and ease of use. Here&rsquo;s what sets us apart from the competition:</span></p>\r\n<p>With our AI Generators, the possibilities are endless. From generating compelling marketing copy and designing stunning visuals to automating data analysis and creating personalized user experiences, our tools will transform the way you work and help you achieve remarkable outcomes.</p>\r\n<p>Join our community of innovators, creators, and forward-thinkers who are leveraging the power of AI to revolutionize their industries. Start your journey with MagicAI today and unlock the full potential of AI Generators.</p>\r\n<p>Ready to experience the future of creativity? Sign up now and embark on an exciting adventure of limitless possibilities.</p>\r\n<ul style=\"list-style: disc; list-style-position: inside;\">\r\n<li><strong>New &mdash;</strong>&nbsp;AI Voiceover in 30 Languages</li>\r\n<li><strong>New &mdash;</strong>&nbsp;Custom Avatar for Chatbot</li>\r\n<li><strong>Improved &mdash;</strong>&nbsp;Auto Translate</li>\r\n</ul>', 'custom-features', 0, '2024-02-14 12:27:38', '2024-02-14 13:25:50', 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -2952,12 +2958,12 @@ CREATE TABLE `settings` (
   `bank_transfer_active` varchar(191) NOT NULL DEFAULT '0',
   `bank_transfer_instructions` varchar(191) DEFAULT NULL,
   `bank_transfer_informations` varchar(191) DEFAULT NULL,
-  `site_name` varchar(191) NOT NULL DEFAULT 'moda.STUDIO',
+  `site_name` varchar(191) NOT NULL DEFAULT 'MagicAI',
   `site_url` varchar(191) NOT NULL DEFAULT 'https://liquid-themes.com',
   `site_email` varchar(191) DEFAULT NULL,
   `google_analytics_active` varchar(191) NOT NULL DEFAULT '0',
   `google_analytics_code` text DEFAULT NULL,
-  `logo` varchar(191) NOT NULL DEFAULT 'moda.STUDIO-logo.svg',
+  `logo` varchar(191) NOT NULL DEFAULT 'magicAI-logo.svg',
   `favicon` varchar(191) DEFAULT NULL,
   `meta_title` text DEFAULT NULL,
   `meta_description` text DEFAULT NULL,
@@ -2989,7 +2995,7 @@ CREATE TABLE `settings` (
   `openai_api_secret` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `logo_path` varchar(191) NOT NULL DEFAULT 'assets/img/logo/moda.STUDIO-logo.svg',
+  `logo_path` varchar(191) NOT NULL DEFAULT 'assets/img/logo/magicAI-logo.svg',
   `favicon_path` varchar(191) DEFAULT NULL,
   `openai_default_model` varchar(191) NOT NULL DEFAULT 'gpt-3.5-turbo',
   `openai_default_language` varchar(191) NOT NULL DEFAULT 'en-US',
@@ -3009,23 +3015,23 @@ CREATE TABLE `settings` (
   `frontend_footer_twitter` varchar(191) DEFAULT NULL,
   `frontend_footer_instagram` varchar(191) DEFAULT NULL,
   `script_version` double NOT NULL DEFAULT 9,
-  `logo_collapsed` varchar(191) NOT NULL DEFAULT 'moda.STUDIO-logo-Collapsed.png',
-  `logo_collapsed_path` varchar(191) NOT NULL DEFAULT 'assets/img/logo/moda.STUDIO-logo-Collapsed.png',
+  `logo_collapsed` varchar(191) NOT NULL DEFAULT 'magicAI-logo-Collapsed.png',
+  `logo_collapsed_path` varchar(191) NOT NULL DEFAULT 'assets/img/logo/magicAI-logo-Collapsed.png',
   `stripe_status_for_now` varchar(191) NOT NULL DEFAULT 'disabled',
-  `logo_dark` varchar(191) NOT NULL DEFAULT 'moda.STUDIO-logo-dark.svg',
+  `logo_dark` varchar(191) NOT NULL DEFAULT 'magicAI-logo-dark.svg',
   `logo_dashboard` text DEFAULT NULL,
   `logo_dashboard_dark` text DEFAULT NULL,
-  `logo_collapsed_dark` varchar(191) NOT NULL DEFAULT 'moda.STUDIO-logo-collapsed-dark.svg',
+  `logo_collapsed_dark` varchar(191) NOT NULL DEFAULT 'magicAI-logo-collapsed-dark.svg',
   `logo_2x` text DEFAULT NULL,
   `logo_dark_2x` text DEFAULT NULL,
   `logo_dashboard_2x` text DEFAULT NULL,
   `logo_dashboard_dark_2x` text DEFAULT NULL,
   `logo_collapsed_2x` text DEFAULT NULL,
   `logo_collapsed_dark_2x` text DEFAULT NULL,
-  `logo_dark_path` varchar(191) NOT NULL DEFAULT 'assets/img/logo/moda.STUDIO-logo-dark.svg',
+  `logo_dark_path` varchar(191) NOT NULL DEFAULT 'assets/img/logo/magicAI-logo-dark.svg',
   `logo_dashboard_path` text DEFAULT NULL,
   `logo_dashboard_dark_path` text DEFAULT NULL,
-  `logo_collapsed_dark_path` varchar(191) NOT NULL DEFAULT 'assets/img/logo/moda.STUDIO-logo-collapsed-dark.svg',
+  `logo_collapsed_dark_path` varchar(191) NOT NULL DEFAULT 'assets/img/logo/magicAI-logo-collapsed-dark.svg',
   `logo_2x_path` text DEFAULT NULL,
   `logo_dark_2x_path` text DEFAULT NULL,
   `logo_dashboard_2x_path` text DEFAULT NULL,
@@ -3096,7 +3102,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `invoice_currency`, `invoice_name`, `invoice_website`, `invoice_address`, `invoice_city`, `invoice_state`, `invoice_postal`, `invoice_country`, `invoice_phone`, `invoice_vat`, `default_currency`, `tax_rate`, `stripe_active`, `stripe_key`, `stripe_secret`, `stripe_base_url`, `bank_transfer_active`, `bank_transfer_instructions`, `bank_transfer_informations`, `site_name`, `site_url`, `site_email`, `google_analytics_active`, `google_analytics_code`, `logo`, `favicon`, `meta_title`, `meta_description`, `facebook_active`, `facebook_api_key`, `facebook_api_secret`, `facebook_redirect_url`, `github_active`, `github_api_key`, `github_api_secret`, `github_redirect_url`, `google_active`, `google_api_key`, `google_api_secret`, `google_redirect_url`, `twitter_active`, `twitter_api_key`, `twitter_api_secret`, `twitter_redirect_url`, `register_active`, `default_country`, `smtp_host`, `smtp_port`, `smtp_username`, `smtp_password`, `smtp_email`, `smtp_sender_name`, `smtp_encryption`, `openai_api_secret`, `created_at`, `updated_at`, `logo_path`, `favicon_path`, `openai_default_model`, `openai_default_language`, `openai_default_tone_of_voice`, `openai_default_creativity`, `openai_max_input_length`, `openai_max_output_length`, `affiliate_minimum_withdrawal`, `affiliate_commission_percentage`, `frontend_pricing_section`, `frontend_custom_templates_section`, `frontend_business_partners_section`, `frontend_additional_url`, `frontend_custom_js`, `frontend_custom_css`, `frontend_footer_facebook`, `frontend_footer_twitter`, `frontend_footer_instagram`, `script_version`, `logo_collapsed`, `logo_collapsed_path`, `stripe_status_for_now`, `logo_dark`, `logo_dashboard`, `logo_dashboard_dark`, `logo_collapsed_dark`, `logo_2x`, `logo_dark_2x`, `logo_dashboard_2x`, `logo_dashboard_dark_2x`, `logo_collapsed_2x`, `logo_collapsed_dark_2x`, `logo_dark_path`, `logo_dashboard_path`, `logo_dashboard_dark_path`, `logo_collapsed_dark_path`, `logo_2x_path`, `logo_dark_2x_path`, `logo_dashboard_2x_path`, `logo_dashboard_dark_2x_path`, `logo_collapsed_2x_path`, `logo_collapsed_dark_2x_path`, `feature_ai_writer`, `feature_ai_image`, `feature_ai_chat`, `feature_ai_code`, `feature_ai_voice_clone`, `feature_ai_speech_to_text`, `feature_affilates`, `logo_sticky`, `logo_sticky_path`, `logo_sticky_2x`, `logo_sticky_2x_path`, `meta_keywords`, `gdpr_status`, `gdpr_button`, `gdpr_content`, `menu_options`, `privacy_enable`, `privacy_enable_login`, `privacy_content`, `terms_content`, `login_without_confirmation`, `feature_ai_voiceover`, `gcs_file`, `gcs_name`, `frontend_code_before_head`, `frontend_code_before_body`, `dashboard_code_before_head`, `dashboard_code_before_body`, `feature_ai_article_wizard`, `feature_ai_vision`, `feature_ai_pdf`, `feature_ai_chat_image`, `mobile_payment_active`, `feature_ai_rewriter`, `feature_ai_youtube`, `feature_ai_rss`, `team_functionality`, `feature_ai_advanced_editor`, `user_count`, `free_open_ai_items`, `user_api_option`, `auth_view_options`, `tour_seen`, `recaptcha_login`, `recaptcha_register`, `recaptcha_sitekey`, `recaptcha_secretkey`, `login_with_otp`, `synthesia_secret_key`, `pebblely_key`, `mrrobot_name`, `mrrobot_search_words`, `aimlapi_key`, `ai_music_model`, `x_logo`, `xx_logo`, `heygen_secret_key`) VALUES
-(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', NULL, '0', NULL, NULL, 'https://api.stripe.com', '0', NULL, NULL, 'moda.STUDIO', 'https://liquid-themes.com', NULL, '0', NULL, 'moda.STUDIO-logo.svg', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 'United States', NULL, NULL, NULL, NULL, NULL, NULL, 'TLS', NULL, NULL, '2025-12-23 12:44:49', 'assets/img/logo/moda.STUDIO-logo.svg', NULL, 'gpt-3.5-turbo', 'en-US', 'professional', '0.75', '300', '200', '10', '10', 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 9, 'moda.STUDIO-logo-Collapsed.png', 'assets/img/logo/moda.STUDIO-logo-Collapsed.png', 'disabled', 'moda.STUDIO-logo-dark.svg', NULL, NULL, 'moda.STUDIO-logo-collapsed-dark.svg', NULL, NULL, NULL, NULL, NULL, NULL, 'assets/img/logo/moda.STUDIO-logo-dark.svg', NULL, NULL, 'assets/img/logo/moda.STUDIO-logo-collapsed-dark.svg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 1, 1, NULL, NULL, NULL, NULL, NULL, 0, 'Accept', 'This website uses cookies to improve your web experience.', NULL, 0, 0, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, '[\"post_title_generator\",\"summarize_text\",\"product_description\",\"article_generator\",\"product_name\",\"testimonial_review\",\"problem_agitate_solution\",\"blog_section\",\"blog_post_ideas\",\"blog_intros\",\"blog_conclusion\",\"facebook_ads\",\"youtube_video_description\",\"youtube_video_title\",\"youtube_video_tag\",\"instagram_captions\",\"instagram_hashtag\",\"social_media_post_tweet\",\"social_media_post_business\",\"facebook_headlines\",\"google_ads_headlines\",\"google_ads_description\",\"paragraph_generator\",\"pros_cons\",\"meta_description\",\"faq_generator\",\"email_generator\",\"email_answer_generator\",\"newsletter_generator\",\"grammar_correction\",\"tldr_summarization\",\"ai_image_generator\",\"custom-generation-eQao5n\",\"ai_speech_to_text\",\"ai_code_generator\",\"ai_article_wizard_generator\",\"ai_vision\",\"ai_pdf\",\"ai_chat_image\",\"ai_rewriter\",\"ai_webchat\",\"ai_video\"]', 0, NULL, 1, 0, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', NULL, '0', NULL, NULL, 'https://api.stripe.com', '0', NULL, NULL, 'MagicAI', 'https://liquid-themes.com', NULL, '0', NULL, 'magicAI-logo.svg', NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 'United States', NULL, NULL, NULL, NULL, NULL, NULL, 'TLS', NULL, NULL, '2025-12-23 12:44:49', 'assets/img/logo/magicAI-logo.svg', NULL, 'gpt-3.5-turbo', 'en-US', 'professional', '0.75', '300', '200', '10', '10', 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 9, 'magicAI-logo-Collapsed.png', 'assets/img/logo/magicAI-logo-Collapsed.png', 'disabled', 'magicAI-logo-dark.svg', NULL, NULL, 'magicAI-logo-collapsed-dark.svg', NULL, NULL, NULL, NULL, NULL, NULL, 'assets/img/logo/magicAI-logo-dark.svg', NULL, NULL, 'assets/img/logo/magicAI-logo-collapsed-dark.svg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 1, 1, NULL, NULL, NULL, NULL, NULL, 0, 'Accept', 'This website uses cookies to improve your web experience.', NULL, 0, 0, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, '[\"post_title_generator\",\"summarize_text\",\"product_description\",\"article_generator\",\"product_name\",\"testimonial_review\",\"problem_agitate_solution\",\"blog_section\",\"blog_post_ideas\",\"blog_intros\",\"blog_conclusion\",\"facebook_ads\",\"youtube_video_description\",\"youtube_video_title\",\"youtube_video_tag\",\"instagram_captions\",\"instagram_hashtag\",\"social_media_post_tweet\",\"social_media_post_business\",\"facebook_headlines\",\"google_ads_headlines\",\"google_ads_description\",\"paragraph_generator\",\"pros_cons\",\"meta_description\",\"faq_generator\",\"email_generator\",\"email_answer_generator\",\"newsletter_generator\",\"grammar_correction\",\"tldr_summarization\",\"ai_image_generator\",\"custom-generation-eQao5n\",\"ai_speech_to_text\",\"ai_code_generator\",\"ai_article_wizard_generator\",\"ai_vision\",\"ai_pdf\",\"ai_chat_image\",\"ai_rewriter\",\"ai_webchat\",\"ai_video\"]', 0, NULL, 1, 0, 0, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3365,7 +3371,7 @@ CREATE TABLE `testimonials` (
 --
 
 INSERT INTO `testimonials` (`id`, `avatar`, `full_name`, `job_title`, `words`, `created_at`, `updated_at`) VALUES
-(1, '202306020840avatar-1.jpg', 'Peline Jan', 'Entrepreneur', '“Not only did it save me time, but it also helped me \nproduce content that was more engaging and \neffective than what I had been creating on my own.�?, '2023-05-29 19:30:53', '2023-06-02 08:40:35'),
+(1, '202306020840avatar-1.jpg', 'Peline Jan', 'Entrepreneur', '“Not only did it save me time, but it also helped me \nproduce content that was more engaging and \neffective than what I had been creating on my own.”', '2023-05-29 19:30:53', '2023-06-02 08:40:35'),
 (2, '202306020840avatar-3.jpg', 'Tom Daniel', 'Writer', 'As a freelance writer, I was looking for a tool that could help me generate ideas and write faster. This AI Text website has done that and more.', '2023-05-30 07:52:22', '2023-06-02 08:40:47'),
 (3, '202306020840avatar-2.jpg', 'Eric Sanchez', 'UX Designer', 'The customer support team has been incredibly helpful whenever I’ve had any questions. I can’t imagine going back to my old content-creation methods!', '2023-05-30 07:53:14', '2023-06-02 08:40:58');
 
@@ -5599,4 +5605,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-

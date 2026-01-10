@@ -1,73 +1,31 @@
-# Stage 1: Build frontend assets
-FROM node:20-alpine AS node-builder
+FROM python:3.11-slim
+
 WORKDIR /app
-COPY Magicai-Server-Files/package*.json ./
-RUN npm ci
 
-COPY Magicai-Server-Files/resources ./resources
-COPY Magicai-Server-Files/tailwind*.js ./
-COPY Magicai-Server-Files/postcss.config.js ./
-RUN npm run build
-
-# Stage 2: Final image with PHP, Nginx, and Supervisor
-FROM php:8.2-fpm-alpine
-
-# Install system dependencies
-RUN apk add --no-cache \
-    nginx \
-    supervisor \
+# 系統依賴
+RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
-    zip \
-    unzip \
+    wget \
     git \
-    mysql-client \
-    postgresql-client \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    libwebp-dev \
-    freetype-dev
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-# Configure and install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-    gd \
-    pdo \
-    pdo_mysql \
-    pdo_pgsql \
-    bcmath \
-    ctype \
-    fileinfo \
-    json \
-    mbstring \
-    openssl \
-    tokenizer \
-    xml \
-    zip
+# 複製依賴文件
+COPY requirements.txt .
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# 安裝 Python 依賴
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Configure Nginx and Supervisor
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY .docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# 複製應用文件
+COPY scripts/ ./scripts/
 
-# Set up work directory and copy application files
-WORKDIR /app
-COPY Magicai-Server-Files/ ./
+# 安裝 Ollama
+RUN curl -fsSL https://ollama.ai/install.sh | sh
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# 暴露端口
+EXPOSE 11434
+EXPOSE 5000
+EXPOSE 8000
 
-# Copy frontend build artifacts
-COPY --from=node-builder /app/public/build ./public/build
-
-# Set permissions
-RUN chmod -R 755 storage bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache \
-    && chown -R www-data:www-data /var/lib/nginx \
-    && touch /run/nginx.pid \
-    && chown -R www-data:www-data /run/nginx.pid
-
-# Expose port and start supervisor
-EXPOSE 8080
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# 啟動命令
+CMD ["sh", "-c", "ollama serve & python scripts/llama_spider_ai.py"]

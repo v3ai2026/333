@@ -1,35 +1,13 @@
-# Root ignores
-.DS_Store
-Thumbs.db
-*.log
-
-# VS Code / IDE
-.vscode/
-.idea/
-
-# Node/Frontend (if used)
-node_modules/
-
-# Laravel app in server/
-server/vendor/
-server/node_modules/
-server/.env
-server/.env.*
-server/storage/*.key
-server/storage/*.log
-server/storage/framework/*
-server/storage/logs/*
-server/storage/debugbar/*
-server/bootstrap/cache/*
-server/public/storage/
-
-# Package archives and temp
-server/rt-client-*.tgz
-
-# Composer artifacts
-server/.phpunit.result.cache
-server/.env.backup
-
-# Misc
-*.bak
-*.tmp
+. codeoss/ 
+.vscode/ 
+.idea/ 
+node_modules/ 
+__pycache__/ 
+*.pyc 
+venv/ 
+env/ 
+*.log 
+.DS_Store 
+Thumbs.db 
+dist/ 
+build/
