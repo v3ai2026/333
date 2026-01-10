@@ -10,6 +10,9 @@ env:
   DOCKER_BUILDKIT: 1
   COMPOSE_DOCKER_CLI_BUILD: 1
 
+permissions:
+  contents: read
+
 jobs:
   # ============================================================================
   # Stage 1: Code Check
@@ -17,6 +20,8 @@ jobs:
   check:
     name: Code Quality Check
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
@@ -71,6 +76,8 @@ jobs:
     name: Build Docker Images
     runs-on: ubuntu-latest
     needs: check
+    permissions:
+      contents: read
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
@@ -140,6 +147,8 @@ jobs:
     name: Deploy Services
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: read
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
@@ -235,6 +244,8 @@ jobs:
     name: Verify Deployment
     runs-on: ubuntu-latest
     needs: deploy
+    permissions:
+      contents: read
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
@@ -362,6 +373,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [check, build, deploy, verify]
     if: always()
+    permissions: {}
     steps:
       - name: 📊 Deployment Summary
         run: |
@@ -427,6 +439,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [deploy, verify]
     if: failure()
+    permissions:
+      contents: read
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
