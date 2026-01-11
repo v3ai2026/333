@@ -1,0 +1,115 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - copilot/create-deployment-configuration
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: 🔨 Build Static Site
+        run: |
+          echo "Building static site for GitHub Pages..."
+          mkdir -p _site
+          
+          # Copy public directory contents
+          if [ -d "public" ]; then
+            cp -r public/* _site/
+            echo "✓ Copied public directory"
+          fi
+          
+          # Ensure index.html exists
+          if [ ! -f "_site/index.html" ]; then
+            echo "⚠️ No index.html found, creating default page"
+            cat > _site/index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MagicAI v9.9</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 { color: #333; margin-bottom: 20px; }
+        a { color: #667eea; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 MagicAI v9.9</h1>
+        <p>Visit our <a href="https://github.com/v3ai2026/333">GitHub Repository</a></p>
+    </div>
+</body>
+</html>
+EOF
+          fi
+          
+          # Create .nojekyll to disable Jekyll processing
+          touch _site/.nojekyll
+          
+          # List generated files
+          echo "Generated files:"
+          ls -la _site/
+          
+          echo "✓ Static site built successfully"
+
+      - name: 📤 Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: ✅ Deployment Complete
+        run: |
+          echo "=========================================="
+          echo "🎉 Deployment Successful!"
+          echo "=========================================="
+          echo ""
+          echo "Your site is now live at:"
+          echo "🔗 https://v3ai2026.github.io/333/"
+          echo ""
+          echo "Note: It may take a few minutes for the"
+          echo "changes to appear on the live site."
+          echo "=========================================="
