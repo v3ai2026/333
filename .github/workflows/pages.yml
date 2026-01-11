@@ -1,0 +1,81 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: 🔨 Build Static Site
+        run: |
+          echo "Building static site for GitHub Pages..."
+          mkdir -p _site
+          
+          # Copy public directory contents
+          if [ -d "public" ]; then
+            cp -r public/* _site/
+            echo "✓ Copied public directory"
+          else
+            echo "⚠️ No public directory found"
+          fi
+          
+          # Ensure index.html exists
+          if [ ! -f "_site/index.html" ]; then
+            echo "⚠️ No index.html found, creating default fallback page"
+            echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>MagicAI v9.9</title></head><body><h1>MagicAI v9.9</h1><p>Visit <a href="https://github.com/v3ai2026/333">GitHub Repository</a></p></body></html>' > _site/index.html
+          fi
+          
+          # Create .nojekyll to disable Jekyll processing
+          touch _site/.nojekyll
+          
+          # List generated files
+          echo "Generated files:"
+          ls -la _site/
+          
+          echo "✓ Static site built successfully"
+
+      - name: 📤 Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+      - name: 🚀 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: ✅ Deployment Complete
+        run: |
+          echo "=========================================="
+          echo "🎉 Deployment Successful!"
+          echo "=========================================="
+          echo ""
+          echo "Your site is now live at:"
+          echo "🔗 https://v3ai2026.github.io/333/"
+          echo ""
+          echo "Note: It may take a few minutes for the"
+          echo "changes to appear on the live site."
+          echo "=========================================="
