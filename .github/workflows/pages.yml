@@ -1,6 +1,6 @@
 name: Deploy to GitHub Pages
 
-on:
+'on':
   push:
     branches:
       - main
@@ -40,47 +40,14 @@ jobs:
           if [ -d "public" ]; then
             cp -r public/* _site/
             echo "✓ Copied public directory"
+          else
+            echo "⚠️ No public directory found"
           fi
           
           # Ensure index.html exists
           if [ ! -f "_site/index.html" ]; then
-            echo "⚠️ No index.html found, creating default page"
-            cat > _site/index.html << 'EOF'
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MagicAI v9.9</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .container {
-            background: white;
-            padding: 50px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        h1 { color: #333; margin-bottom: 20px; }
-        a { color: #667eea; text-decoration: none; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🎨 MagicAI v9.9</h1>
-        <p>Visit our <a href="https://github.com/v3ai2026/333">GitHub Repository</a></p>
-    </div>
-</body>
-</html>
-EOF
+            echo "⚠️ No index.html found, creating default fallback page"
+            echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>MagicAI v9.9</title></head><body><h1>MagicAI v9.9</h1><p>Visit <a href="https://github.com/v3ai2026/333">GitHub Repository</a></p></body></html>' > _site/index.html
           fi
           
           # Create .nojekyll to disable Jekyll processing
