@@ -1,54 +1,5 @@
 {
-  "version": 2,
-  "framework": "laravel",
-  "installCommand": "npm install --legacy-peer-deps || true",
-  "buildCommand": "cd server && composer install --optimize-autoloader --no-dev && npm install --legacy-peer-deps && npm run build",
-  "outputDirectory": "server/public",
-  "env": {
-    "APP_ENV": "production",
-    "APP_DEBUG": "false",
-    "APP_KEY": "@APP_KEY",
-    "APP_URL": "https://mdio.shop",
-    "SESSION_DOMAIN": "mdio.shop",
-    "SANCTUM_STATEFUL_DOMAINS": "mdio.shop",
-    "DB_CONNECTION": "mysql",
-    "DB_HOST": "@DB_HOST",
-    "DB_PORT": "3306",
-    "DB_DATABASE": "@DB_DATABASE",
-    "DB_USERNAME": "@DB_USERNAME",
-    "DB_PASSWORD": "@DB_PASSWORD",
-    "REDIS_HOST": "@REDIS_HOST",
-    "REDIS_PORT": "6379"
-  },
-  "builds": [
-    {
-      "src": "server/artisan",
-      "use": "vercel-php@0.6.0",
-      "config": {
-        "document_root": "public",
-        "memory": 512,
-        "environments": {
-          "production": {
-            "php_version": "8.2"
-          }
-        }
-      }
-    },
-    {
-      "src": "server/package.json",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "server/public/index.php"
-    }
-  ],
-  "functions": {
-    "server/artisan": {
-      "memory": 512,
-      "maxDuration": 900
-    }
-  }
+  "redirects": [
+    { "source": "/(.*)", "destination": "https://mdio.shop/$1", "permanent": false }
+  ]
 }
