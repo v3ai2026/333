@@ -27,6 +27,8 @@ GCP_REGION = os.getenv('GCP_REGION', 'us-central1')
 VERTEX_AI_ENABLED = os.getenv('VERTEX_AI_ENABLED', 'false').lower() == 'true'
 
 # Error handler decorator
+
+
 def handle_errors(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -45,6 +47,7 @@ def handle_errors(f):
 # HEALTH & STATUS ENDPOINTS
 # ============================================================================
 
+
 @app.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint for Docker and monitoring"""
@@ -56,6 +59,7 @@ def health_check():
         'gcp_project': GCP_PROJECT_ID,
         'region': GCP_REGION
     }), 200
+
 
 @app.route('/status', methods=['GET'])
 def status():
@@ -72,6 +76,7 @@ def status():
         }
     }), 200
 
+
 @app.route('/api/status', methods=['GET'])
 def api_status():
     """API status for legacy compatibility"""
@@ -85,6 +90,7 @@ def api_status():
 # AI/ML PROCESSING ENDPOINTS
 # ============================================================================
 
+
 @app.route('/api/ai/process', methods=['POST'])
 @handle_errors
 def process_ai_request():
@@ -92,16 +98,16 @@ def process_ai_request():
     Process AI/ML requests (Vertex AI integration placeholder)
     """
     data = request.get_json()
-    
+
     if not data or 'model' not in data:
         return jsonify({'error': 'Missing required field: model'}), 400
-    
+
     model = data.get('model')
     input_data = data.get('input', {})
     parameters = data.get('parameters', {})
-    
+
     logger.info(f"Processing AI request for model: {model}")
-    
+
     return jsonify({
         'status': 'success',
         'message': f'AI request processed for model: {model}',
@@ -111,21 +117,22 @@ def process_ai_request():
         'processing_timestamp': datetime.utcnow().isoformat()
     }), 200
 
+
 @app.route('/api/ai/chat', methods=['POST'])
 @handle_errors
 def process_chat():
     """Process chat requests through Vertex AI"""
     data = request.get_json()
-    
+
     if not data or 'message' not in data:
         return jsonify({'error': 'Missing required field: message'}), 400
-    
+
     message = data.get('message')
     conversation_id = data.get('conversation_id', 'default')
     model = data.get('model', 'gemini-pro')
-    
+
     logger.info(f"Chat request for conversation: {conversation_id}")
-    
+
     return jsonify({
         'status': 'success',
         'message': message,
@@ -138,22 +145,23 @@ def process_chat():
 # ASYNC JOB ENDPOINTS
 # ============================================================================
 
+
 @app.route('/api/jobs/submit', methods=['POST'])
 @handle_errors
 def submit_job():
     """Submit async job for background processing"""
     data = request.get_json()
-    
+
     if not data or 'job_type' not in data:
         return jsonify({'error': 'Missing required field: job_type'}), 400
-    
+
     job_type = data.get('job_type')
     payload = data.get('payload', {})
-    
+
     job_id = f"job_{int(datetime.utcnow().timestamp() * 1000)}"
-    
-    logger.info(f"Job submitted: {job_id} (type: {job_type})")
-    
+
+    logger.info(f"Job submitted: {job_id} (type: {job_type}, payload: {payload})")
+
     return jsonify({
         'status': 'submitted',
         'job_id': job_id,
@@ -161,12 +169,13 @@ def submit_job():
         'created_at': datetime.utcnow().isoformat()
     }), 202
 
+
 @app.route('/api/jobs/<job_id>', methods=['GET'])
 @handle_errors
 def get_job_status(job_id):
     """Get status of async job"""
     logger.info(f"Status check for job: {job_id}")
-    
+
     return jsonify({
         'job_id': job_id,
         'status': 'pending',
@@ -178,6 +187,7 @@ def get_job_status(job_id):
 # ERROR HANDLERS
 # ============================================================================
 
+
 @app.errorhandler(404)
 def not_found(error):
     """Handle 404 errors"""
@@ -186,6 +196,7 @@ def not_found(error):
         'status': 404,
         'path': request.path
     }), 404
+
 
 @app.errorhandler(500)
 def internal_error(error):
@@ -200,13 +211,14 @@ def internal_error(error):
 # MAIN ENTRY POINT
 # ============================================================================
 
+
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 8080))
     debug = os.getenv('APP_DEBUG', 'false').lower() == 'true'
-    
+
     logger.info(f"Starting MagicAI Backend Service on port {port}")
     logger.info(f"GCP Project: {GCP_PROJECT_ID}, Region: {GCP_REGION}")
-    
+
     app.run(
         host='0.0.0.0',
         port=port,

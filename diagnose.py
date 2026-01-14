@@ -5,16 +5,16 @@ moda.STUDIO 系统监控和诊断工具
 
 import subprocess
 import sys
-import json
 import requests
 from datetime import datetime
 from pathlib import Path
+
 
 class ModaStudioDiagnostics:
     def __init__(self):
         self.results = {}
         self.timestamp = datetime.now().isoformat()
-    
+
     def check_port(self, port, name):
         """检查端口是否开放"""
         try:
@@ -24,24 +24,24 @@ class ModaStudioDiagnostics:
             result = sock.connect_ex(('localhost', port))
             sock.close()
             return result == 0
-        except:
+        except BaseException:
             return False
-    
+
     def check_service(self, url, name, timeout=5):
         """检查服务是否可访问"""
         try:
             response = requests.get(url, timeout=timeout)
             return response.status_code < 500
-        except:
+        except BaseException:
             return False
-    
+
     def run_diagnostics(self):
         """运行完整诊断"""
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("  moda.STUDIO 系统诊断工具")
-        print("="*50)
+        print("=" * 50)
         print(f"诊断时间: {self.timestamp}\n")
-        
+
         # 检查各个端点
         endpoints = [
             (3306, "MySQL", None),
@@ -49,14 +49,14 @@ class ModaStudioDiagnostics:
             (8000, "Laravel", "http://localhost:8000"),
             (8080, "Python", "http://localhost:8080"),
         ]
-        
+
         results = []
-        
+
         for port, name, url in endpoints:
             print(f"检查 {name} ({port})...", end=" ")
-            
+
             port_open = self.check_port(port, name)
-            
+
             if port_open and url:
                 service_ok = self.check_service(url, name)
                 status = "✅ 运行中" if service_ok else "⚠️  端口开放但服务异常"
@@ -64,14 +64,14 @@ class ModaStudioDiagnostics:
                 status = "✅ 端口开放"
             else:
                 status = "❌ 未运行"
-            
+
             print(status)
             results.append({
                 "name": name,
                 "port": port,
                 "status": status
             })
-        
+
         # 检查文件
         print("\n检查关键文件...")
         files = [
@@ -80,12 +80,12 @@ class ModaStudioDiagnostics:
             "backend-service/requirements.txt",
             "magicai.sql",
         ]
-        
+
         for file_path in files:
             exists = Path(file_path).exists()
             status = "✅" if exists else "❌"
             print(f"  {status} {file_path}")
-        
+
         # 检查 Git
         print("\n检查 Git 仓库...")
         try:
@@ -110,19 +110,19 @@ class ModaStudioDiagnostics:
                 print(f"  📁 当前分支: {branch}")
             else:
                 print("  ⚠️  Git 仓库初始化失败")
-        except:
+        except BaseException:
             print("  ⚠️  Git 不可用")
-        
+
         # 总结
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("  诊断总结")
-        print("="*50)
-        
+        print("=" * 50)
+
         running = sum(1 for r in results if "✅" in r["status"])
         total = len(results)
-        
+
         print(f"\n运行中的服务: {running}/{total}")
-        
+
         if running == total:
             print("✅ 所有服务正常运行！")
             return True
@@ -134,10 +134,12 @@ class ModaStudioDiagnostics:
             print("  Linux/Mac: ./startup.sh")
             return False
 
+
 def main():
     diag = ModaStudioDiagnostics()
     success = diag.run_diagnostics()
     sys.exit(0 if success else 1)
+
 
 if __name__ == "__main__":
     main()

@@ -52,8 +52,8 @@ jobs:
       # ====================================================================
       - name: 🔨 验证 Docker 配置
         run: |
-          echo "🔍 验证 docker-compose.yml..."
-          docker-compose config > /dev/null
+          echo "🔍 验证 docker compose.yml..."
+          docker compose config > /dev/null
           echo "✅ Docker 配置验证通过"
       
       # ====================================================================
@@ -96,7 +96,7 @@ jobs:
           echo "⏰ 构建开始时间: $(date)"
           
           # 构建所有镜像
-          docker-compose build --no-cache
+          docker compose build --no-cache
           
           echo "✅ Docker 镜像构建完成"
           echo "⏰ 构建完成时间: $(date)"
@@ -111,12 +111,12 @@ jobs:
       - name: 🚀 启动所有服务
         run: |
           echo "🚀 启动 Docker 容器..."
-          docker-compose up -d
+          docker compose up -d
           
           echo "✅ 容器启动命令已执行"
           echo ""
           echo "📋 容器状态:"
-          docker-compose ps
+          docker compose ps
       
       # ====================================================================
       # ⏳ 7. 等待服务就绪
@@ -125,7 +125,7 @@ jobs:
         run: |
           echo "⏳ 等待 MySQL 数据库初始化..."
           for i in {1..60}; do
-            if docker-compose exec -T db mysqladmin ping -h localhost -u root -ptest_root_password &> /dev/null; then
+            if docker compose exec -T db mysqladmin ping -h localhost -u root -ptest_root_password &> /dev/null; then
               echo "✅ 数据库已就绪"
               break
             fi
@@ -134,9 +134,9 @@ jobs:
           done
           
           # 验证数据库确实就绪
-          if ! docker-compose exec -T db mysqladmin ping -h localhost -u root -ptest_root_password &> /dev/null; then
+          if ! docker compose exec -T db mysqladmin ping -h localhost -u root -ptest_root_password &> /dev/null; then
             echo "❌ 数据库启动超时"
-            docker-compose logs db
+            docker compose logs db
             exit 1
           fi
       
@@ -144,7 +144,7 @@ jobs:
         run: |
           echo "⏳ 等待 Redis 启动..."
           for i in {1..30}; do
-            if docker-compose exec -T redis redis-cli ping &> /dev/null; then
+            if docker compose exec -T redis redis-cli ping &> /dev/null; then
               echo "✅ Redis 已就绪"
               break
             fi
@@ -184,10 +184,10 @@ jobs:
           echo "🧪 测试数据库连接..."
           
           # Ping 测试
-          docker-compose exec -T db mysqladmin ping -h localhost -u root -ptest_root_password
+          docker compose exec -T db mysqladmin ping -h localhost -u root -ptest_root_password
           
           # 查询测试
-          docker-compose exec -T db mysql -u root -ptest_root_password -e "SELECT 1 as test;" magicai
+          docker compose exec -T db mysql -u root -ptest_root_password -e "SELECT 1 as test;" magicai
           
           echo "✅ 数据库连接测试通过"
       
@@ -196,11 +196,11 @@ jobs:
           echo "🧪 测试 Redis 连接..."
           
           # Ping 测试
-          docker-compose exec -T redis redis-cli ping
+          docker compose exec -T redis redis-cli ping
           
           # 写入和读取测试
-          docker-compose exec -T redis redis-cli SET test_key "test_value"
-          docker-compose exec -T redis redis-cli GET test_key
+          docker compose exec -T redis redis-cli SET test_key "test_value"
+          docker compose exec -T redis redis-cli GET test_key
           
           echo "✅ Redis 连接测试通过"
       
@@ -256,10 +256,10 @@ jobs:
           echo "📊 运行数据库迁移..."
           
           # 生成应用密钥（如果需要）
-          docker-compose exec -T web php artisan key:generate --force || true
+          docker compose exec -T web php artisan key:generate --force || true
           
           # 运行迁移
-          docker-compose exec -T web php artisan migrate --force || echo "⚠️ 迁移可能已运行或表不存在"
+          docker compose exec -T web php artisan migrate --force || echo "⚠️ 迁移可能已运行或表不存在"
           
           echo "✅ 数据库迁移完成"
       
@@ -268,13 +268,13 @@ jobs:
           echo "🗑️ 清理应用缓存..."
           
           # 清理配置缓存
-          docker-compose exec -T web php artisan config:clear || true
+          docker compose exec -T web php artisan config:clear || true
           
           # 清理路由缓存
-          docker-compose exec -T web php artisan route:clear || true
+          docker compose exec -T web php artisan route:clear || true
           
           # 清理视图缓存
-          docker-compose exec -T web php artisan view:clear || true
+          docker compose exec -T web php artisan view:clear || true
           
           echo "✅ 缓存清理完成"
       
@@ -283,12 +283,12 @@ jobs:
           echo "🎨 编译前端资源..."
           
           # 检查是否有 npm 构建配置
-          if docker-compose exec -T web test -f package.json; then
+          if docker compose exec -T web test -f package.json; then
             # 安装依赖（如果需要）
-            docker-compose exec -T web npm install --silent || echo "⚠️ npm install 可能有问题"
+            docker compose exec -T web npm install --silent || echo "⚠️ npm install 可能有问题"
             
             # 构建前端
-            docker-compose exec -T web npm run build || echo "⚠️ 前端构建可能有问题"
+            docker compose exec -T web npm run build || echo "⚠️ 前端构建可能有问题"
             
             echo "✅ 前端资源编译完成"
           else
@@ -303,16 +303,16 @@ jobs:
           echo "✅ 验证容器状态..."
           
           # 显示所有容器状态
-          docker-compose ps
+          docker compose ps
           
           # 检查每个服务是否运行
           services=("db" "redis" "web" "python-backend")
           for service in "${services[@]}"; do
-            if docker-compose ps | grep -q "$service.*Up"; then
+            if docker compose ps | grep -q "$service.*Up"; then
               echo "✅ $service 正在运行"
             else
               echo "❌ $service 未运行"
-              docker-compose logs "$service"
+              docker compose logs "$service"
               exit 1
             fi
           done
@@ -361,7 +361,7 @@ jobs:
           echo "⏰ 部署完成时间: $(date)"
           echo ""
           echo "📦 容器状态:"
-          docker-compose ps
+          docker compose ps
           echo ""
           echo "📊 资源使用情况:"
           docker stats --no-stream
@@ -376,9 +376,9 @@ jobs:
           echo "  ✓ Redis: localhost:6379"
           echo ""
           echo "📝 查看日志命令:"
-          echo "  docker-compose logs -f"
-          echo "  docker-compose logs web"
-          echo "  docker-compose logs python-backend"
+          echo "  docker compose logs -f"
+          echo "  docker compose logs web"
+          echo "  docker compose logs python-backend"
           echo ""
           echo "════════════════════════════════════════════════════════════════"
       
@@ -389,5 +389,5 @@ jobs:
         if: always()
         run: |
           echo "🧹 停止服务..."
-          docker-compose down -v
+          docker compose down -v
           echo "✅ 清理完成"
