@@ -1,4 +1,5 @@
-# 333
+# 333 / modastudio
+Multi-agent collaboration framework
 
 ![Deploy Status](https://github.com/v3ai2026/333/actions/workflows/deploy.yml/badge.svg)
 
@@ -19,4 +20,3 @@ This repository includes automated GitHub Actions workflows for continuous integ
 ✅ Comprehensive health checks
 ✅ Database migrations
 ✅ Frontend resource compilation
-

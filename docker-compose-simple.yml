@@ -1,0 +1,220 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: magicai
+      MYSQL_USER: magicai
+      MYSQL_PASSWORD: secret
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - magicai-network
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - magicai-network
+
+  web:
+    image: php:8.2-apache
+    restart: always
+    depends_on:
+      - db
+      - redis
+    working_dir: /var/www/html
+    environment:
+      APP_ENV: production
+      APP_DEBUG: 'false'
+      APP_URL: https://modamoda.shop
+      DB_HOST: db
+      DB_DATABASE: magicai
+      DB_USERNAME: magicai
+      DB_PASSWORD: secret
+      BROADCAST_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      CACHE_DRIVER: redis
+      SESSION_DRIVER: redis
+      VERTEX_AI_BACKEND_URL: http://modamoda.shop/python-backend:8080
+    volumes:
+      - "./server:/var/www/html"
+      - "./server/public:/var/www/html/public"
+    networks:
+      - magicai-network
+    ports:
+      - "8000:80"
+
+  nginx:
+    image: nginx:latest
+    restart: always
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./server/public:/var/www/html/public:ro"
+      - "./nginx.conf:/etc/nginx/nginx.conf:ro"
+      - "./certs/certs:/etc/nginx/certs:ro"
+    environment:
+      SERVER_NAME: modamoda.shop
+    networks:
+      - magicai-network
+
+  python-backend:
+    image: python:3.11-slim
+    restart: always
+    depends_on:
+      - db
+    working_dir: /app
+    environment:
+      GCP_PROJECT_ID: test-project
+      GCP_REGION: us-central1
+      MODEL_ID: gemini-2.0-flash
+      PORT: 8080
+    volumes:
+      - "./backend-service:/app"
+    ports:
+      - "8080:8080"
+    networks:
+      - magicai-network
+    command: "python app.py"
+
+  # ========== Ollama 本地 AI 模型服務 ==========
+  ollama:
+    image: ollama/ollama:latest
+    restart: always
+    ports:
+      - "11434:11434"
+    environment:
+      # GPU 支持（如果有 NVIDIA GPU，取消註釋）
+      # CUDA_VISIBLE_DEVICES: "0"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - magicai-network
+    # 預載入模型（可選）
+    # 運行此容器後，執行: docker exec magicai-ollama ollama pull llama2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://modamoda.shop11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  db_data:
+  ollama_data:
+1
+
+连接项目
+
+连接现有项目，然后运行以下命令将其链接到本地​​：
+
+
+vercel link
+2
+
+设置环境变量
+
+通过运行以下命令，使最新的环境变量在本地项目中可用：
+
+
+vercel env pull .env.development.local
+3
+
+在 Hypertun 中创建功能标志
+
+在 Vercel 安装目录中，点击“在 Hypertune 中打开”按钮，打开 Hypertune 用户界面。创建您的第一个功能标志。
+
+4
+
+安装包
+
+运行以下命令安装所需软件包：
+
+
+npm install flags @flags-sdk/hypertune hypertune server-only @vercel/edge-config
+5
+
+生成类型
+
+首先，请在配置文件中设置以下环境变量.env，以配置 Hypertune 的代码生成：
+
+
+HYPERTUNE_FRAMEWORK=nextApp
+HYPERTUNE_OUTPUT_DIRECTORY_PATH=generated
+然后运行以下命令为您的 Hypertune 项目生成类型：
+
+
+npx hypertune
+6
+
+设置 flags.ts
+
+创建一个名为 `.` 的新文件flags.ts，其中包含一个identify函数和一个 ` hypertuneAdapter.`
+
+该identify函数接收请求headers和参数cookies，并创建一个Context用于评估标志规则的变量。默认情况下，该变量Context包含environment和当前user，但您可以在 Hypertune 用户界面中更改此设置。
+
+该hypertuneAdapter属性使用 `<type>` 创建createHypertuneAdapter，可用于定义具有类型安全性的标志。结合 `<type>`Context类型，这在处理标志和实验时提供了完整的端到端类型安全。
+
+
+import { Identify } from "flags";
+import { dedupe, flag } from "flags/next";
+import { createHypertuneAdapter } from "@flags-sdk/hypertune";
+import {
+  createSource,
+  flagFallbacks,
+  vercelFlagDefinitions as flagDefinitions,
+  Context,
+  RootFlagValues,
+} from "./generated/hypertune";
+
+const identify: Identify<Context> = dedupe(
+  async ({ headers, cookies }) => {
+    return {
+      environment: process.env.NODE_ENV,
+      user: { id: "1", name: "Test User", email: "hi@test.com" },
+    };
+  },
+);
+
+const hypertuneAdapter = createHypertuneAdapter<
+  RootFlagValues,
+  Context
+>({
+  createSource,
+  flagFallbacks,
+  flagDefinitions,
+  identify,
+});
+
+export const exampleFlagFlag = flag(
+  hypertuneAdapter.declarations.exampleFlag,
+);
+
+export const enableDesignV2Flag = flag(
+  hypertuneAdapter.declarations.enableDesignV2,
+);
+7
+
+使用标志
+
+要在服务器端（例如服务器组件、路由处理程序或中间件中）使用标志，请导入并等待您的标志函数执行完毕：
+
+
+import { exampleFlagFlag } from "@/flags";
+
+export default async function ServerComponent() {
+  const exampleFlag = await exampleFlagFlag();
+
+  return <div>Example Flag: {String(exampleFlag)}</div>;
+}
