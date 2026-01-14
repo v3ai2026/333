@@ -99,8 +99,9 @@ if [ ! -f .env ]; then
     print_info "Creating .env file from template..."
     cp .env.example .env
     
-    # Generate APP_KEY using OpenSSL
+    # Generate APP_KEY using OpenSSL (Laravel requires 32 bytes = 44 base64 chars)
     if command -v openssl &> /dev/null; then
+        # Generate 32 random bytes and encode as base64 (results in 44 chars)
         APP_KEY="base64:$(openssl rand -base64 32)"
         # Use appropriate sed syntax for macOS/Linux
         if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -108,7 +109,7 @@ if [ ! -f .env ]; then
         else
             sed -i "s|APP_KEY=.*|APP_KEY=$APP_KEY|g" .env
         fi
-        print_success "Generated APP_KEY"
+        print_success "Generated secure APP_KEY"
     else
         print_warning "OpenSSL not found, APP_KEY not generated. You may need to set it manually."
     fi
@@ -184,21 +185,21 @@ print_step "Step 6: Waiting for Services to Initialize..."
 
 # Wait for database
 print_info "Waiting for MySQL database..."
-max_attempts=30
-attempt=0
+mysql_max_attempts=30
+mysql_attempt=0
 
-while [ $attempt -lt $max_attempts ]; do
+while [ $mysql_attempt -lt $mysql_max_attempts ]; do
     if docker compose exec -T db mysqladmin ping -h localhost --silent 2>/dev/null; then
         print_success "MySQL is ready"
         break
     fi
     echo -n "."
     sleep 2
-    attempt=$((attempt + 1))
+    mysql_attempt=$((mysql_attempt + 1))
 done
 
-if [ $attempt -eq $max_attempts ]; then
-    print_warning "MySQL didn't respond after ${max_attempts} attempts, but continuing..."
+if [ $mysql_attempt -eq $mysql_max_attempts ]; then
+    print_warning "MySQL didn't respond after ${mysql_max_attempts} attempts, but continuing..."
 fi
 
 # Wait for Redis
@@ -212,20 +213,20 @@ fi
 
 # Wait for Python Backend
 print_info "Waiting for Python Backend (this may take 30-40s)..."
-max_attempts=40
-attempt=0
+backend_max_attempts=40
+backend_attempt=0
 
-while [ $attempt -lt $max_attempts ]; do
+while [ $backend_attempt -lt $backend_max_attempts ]; do
     if curl -f -s http://localhost:8080/health &> /dev/null; then
         print_success "Python Backend is healthy"
         break
     fi
     echo -n "."
     sleep 2
-    attempt=$((attempt + 1))
+    backend_attempt=$((backend_attempt + 1))
 done
 
-if [ $attempt -eq $max_attempts ]; then
+if [ $backend_attempt -eq $backend_max_attempts ]; then
     print_warning "Python Backend didn't respond, check logs: docker compose logs python-backend"
 fi
 
