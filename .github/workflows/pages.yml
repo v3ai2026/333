@@ -1,16 +1,21 @@
 name: Deploy to GitHub Pages
 
+# 此工作流将静态内容部署到 GitHub Pages
+# 触发条件：推送到 main 分支或手动触发
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
 
+# 设置必要的权限
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: read      # 读取仓库内容
+  pages: write        # 写入 GitHub Pages
+  id-token: write     # 用于部署认证
 
+# 并发控制：同一时间只运行一个部署
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -24,58 +29,216 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
+      # 步骤 1: 检出代码
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
+      # 步骤 2: 配置 GitHub Pages
+      # ⚠️ 重要：如果此步骤失败，请确保已在仓库设置中启用 GitHub Pages
+      # 设置路径：Settings → Pages → Source: GitHub Actions
+      # 详细说明：docs/GITHUB_PAGES_SETUP.md
       - name: 📦 Setup Pages
+        id: pages
         uses: actions/configure-pages@v4
+        continue-on-error: true
+      
+      # 步骤 2.5: 检查 Pages 配置状态
+      - name: ⚠️ Check Pages Configuration
+        if: steps.pages.outcome == 'failure'
+        run: |
+          echo "=============================================="
+          echo "❌ GitHub Pages 配置失败！"
+          echo "=============================================="
+          echo ""
+          echo "这通常意味着 GitHub Pages 未在仓库中启用。"
+          echo ""
+          echo "请按照以下步骤启用 GitHub Pages："
+          echo ""
+          echo "1. 进入仓库页面"
+          echo "2. 点击 Settings（设置）"
+          echo "3. 在左侧菜单中找到 Pages"
+          echo "4. 在 Source（源）部分，选择 'GitHub Actions'"
+          echo "5. 保存设置"
+          echo ""
+          echo "完整设置指南："
+          echo "https://github.com/v3ai2026/333/blob/main/docs/GITHUB_PAGES_SETUP.md"
+          echo ""
+          echo "启用 Pages 后，请重新运行此工作流。"
+          echo "=============================================="
+          exit 1
 
+      # 步骤 3: 构建静态站点
+      # 此步骤创建 _site 目录并准备要部署的内容
       - name: 🔨 Build Static Site
         run: |
-          echo "Building static site for GitHub Pages..."
+          echo "=============================================="
+          echo "🔨 开始构建静态站点..."
+          echo "=============================================="
+          echo ""
+          
+          # 创建输出目录
           mkdir -p _site
           
-          # Copy public directory contents
+          # 复制 public 目录内容（Laravel 的公共资源）
           if [ -d "public" ]; then
+            echo "📁 复制 public 目录..."
             cp -r public/* _site/
-            echo "✓ Copied public directory"
+            echo "✓ 已复制 public 目录内容"
           else
-            echo "⚠️ No public directory found"
+            echo "⚠️  未找到 public 目录"
           fi
           
-          # Ensure index.html exists
+          # 确保存在 index.html
           if [ ! -f "_site/index.html" ]; then
-            echo "⚠️ No index.html found, creating default fallback page"
-            echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>MagicAI v9.9</title></head><body><h1>MagicAI v9.9</h1><p>Visit <a href="https://github.com/v3ai2026/333">GitHub Repository</a></p></body></html>' > _site/index.html
+            echo ""
+            echo "⚠️  警告：未找到 index.html"
+            echo "📝 创建默认首页..."
+            cat > _site/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="zh-CN">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>MagicAI v9.9 - AI SaaS Platform</title>
+              <style>
+                  * { margin: 0; padding: 0; box-sizing: border-box; }
+                  body {
+                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                      color: #fff;
+                      min-height: 100vh;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      padding: 20px;
+                  }
+                  .container {
+                      max-width: 800px;
+                      background: rgba(255, 255, 255, 0.1);
+                      backdrop-filter: blur(10px);
+                      border-radius: 20px;
+                      padding: 60px 40px;
+                      text-align: center;
+                      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                  }
+                  h1 {
+                      font-size: 3.5em;
+                      margin-bottom: 20px;
+                      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+                  }
+                  p {
+                      font-size: 1.2em;
+                      margin-bottom: 30px;
+                      opacity: 0.9;
+                  }
+                  .links {
+                      display: flex;
+                      gap: 20px;
+                      justify-content: center;
+                      flex-wrap: wrap;
+                  }
+                  a {
+                      display: inline-block;
+                      padding: 15px 30px;
+                      background: rgba(255, 255, 255, 0.2);
+                      color: #fff;
+                      text-decoration: none;
+                      border-radius: 10px;
+                      font-weight: 600;
+                      transition: all 0.3s;
+                      border: 2px solid rgba(255, 255, 255, 0.3);
+                  }
+                  a:hover {
+                      background: rgba(255, 255, 255, 0.3);
+                      transform: translateY(-2px);
+                      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                  }
+                  .status {
+                      margin-top: 40px;
+                      padding: 20px;
+                      background: rgba(255, 255, 255, 0.1);
+                      border-radius: 10px;
+                  }
+                  .badge {
+                      display: inline-block;
+                      margin: 5px;
+                  }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>🎯 MagicAI v9.9</h1>
+                  <p>AI-Powered SaaS Platform | Laravel 10 + FastAPI</p>
+                  <div class="links">
+                      <a href="https://github.com/v3ai2026/333" target="_blank">📦 GitHub Repository</a>
+                      <a href="https://github.com/v3ai2026/333/blob/main/docs/QUICK_START.md" target="_blank">🚀 Quick Start</a>
+                      <a href="https://github.com/v3ai2026/333/blob/main/docs/DEPLOYMENT_GUIDE.md" target="_blank">📖 Deployment Guide</a>
+                  </div>
+                  <div class="status">
+                      <p><strong>📊 Project Status</strong></p>
+                      <div class="badge">
+                          <img src="https://github.com/v3ai2026/333/actions/workflows/pages.yml/badge.svg" alt="Pages">
+                      </div>
+                      <div class="badge">
+                          <img src="https://github.com/v3ai2026/333/actions/workflows/deploy.yml/badge.svg" alt="Deploy">
+                      </div>
+                  </div>
+              </div>
+          </body>
+          </html>
+          EOF
+            echo "✓ 已创建默认首页"
+          else
+            echo "✓ 找到 index.html"
           fi
           
-          # Create .nojekyll to disable Jekyll processing
+          # 创建 .nojekyll 文件以禁用 Jekyll 处理
+          echo ""
+          echo "📝 创建 .nojekyll 文件..."
           touch _site/.nojekyll
+          echo "✓ Jekyll 处理已禁用"
           
-          # List generated files
-          echo "Generated files:"
-          ls -la _site/
-          
-          echo "✓ Static site built successfully"
+          # 显示生成的文件
+          echo ""
+          echo "📂 生成的文件列表："
+          echo "=============================================="
+          ls -lah _site/ | head -20
+          echo "=============================================="
+          echo ""
+          echo "✅ 静态站点构建成功！"
+          echo ""
 
+      # 步骤 4: 上传构建产物
+      # 将构建的静态文件上传到 GitHub Actions
       - name: 📤 Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: '_site'
 
+      # 步骤 5: 部署到 GitHub Pages
+      # 这是实际的部署步骤
       - name: 🚀 Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
+      # 步骤 6: 部署成功通知
+      # 显示部署信息和网站 URL
       - name: ✅ Deployment Complete
         run: |
-          echo "=========================================="
-          echo "🎉 Deployment Successful!"
-          echo "=========================================="
+          echo "=============================================="
+          echo "🎉 部署成功！"
+          echo "=============================================="
           echo ""
-          echo "Your site is now live at:"
+          echo "您的网站现在已上线："
           echo "🔗 https://v3ai2026.github.io/333/"
           echo ""
-          echo "Note: It may take a few minutes for the"
-          echo "changes to appear on the live site."
-          echo "=========================================="
+          echo "注意事项："
+          echo "• 更改可能需要几分钟才能显示在网站上"
+          echo "• CDN 缓存更新可能需要 5-10 分钟"
+          echo "• 如果看不到更改，请清除浏览器缓存"
+          echo ""
+          echo "相关链接："
+          echo "• 📖 设置指南: docs/GITHUB_PAGES_SETUP.md"
+          echo "• 🚀 部署文档: docs/DEPLOYMENT_GUIDE.md"
+          echo "• 🔧 工作流说明: .github/workflows/README.md"
+          echo "=============================================="

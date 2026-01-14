@@ -1,6 +1,21 @@
 # MagicAI
 
+[![GitHub Pages](https://github.com/v3ai2026/333/actions/workflows/pages.yml/badge.svg)](https://github.com/v3ai2026/333/actions/workflows/pages.yml)
+[![CI/CD Pipeline](https://github.com/v3ai2026/333/actions/workflows/deploy.yml/badge.svg)](https://github.com/v3ai2026/333/actions/workflows/deploy.yml)
+
 An advanced AI-powered application built with Laravel framework.
+
+## 🚀 部署状态
+
+- **GitHub Pages**: [https://v3ai2026.github.io/333/](https://v3ai2026.github.io/333/) - 静态网站演示
+- **CI/CD**: 自动化构建和部署流程
+
+### 重要提示
+
+如果 GitHub Pages 工作流失败，请确保已在仓库设置中启用 GitHub Pages：
+1. 进入 **Settings** → **Pages**
+2. 在 **Source** 下选择 **GitHub Actions**
+3. 查看详细设置指南：[docs/GITHUB_PAGES_SETUP.md](docs/GITHUB_PAGES_SETUP.md)
 
 ## 📁 Project Structure
 
@@ -28,6 +43,13 @@ An advanced AI-powered application built with Laravel framework.
 
 All documentation has been organized in the `docs/` directory:
 
+- **部署与配置**
+  - [GITHUB_PAGES_SETUP.md](docs/GITHUB_PAGES_SETUP.md) - GitHub Pages 设置指南 ⭐
+  - [DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md) - 完整部署指南 ⭐
+  - [DEPLOYMENT.md](docs/DEPLOYMENT.md) - Deployment guide
+  - [DOCKER-COMPOSE-GUIDE.md](docs/DOCKER-COMPOSE-GUIDE.md) - Docker setup
+  - [VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md) - Vercel deployment
+
 - **Quick Start Guides**
   - [QUICK_START.md](docs/QUICK_START.md) - Quick start guide
   - [QUICKSTART.md](docs/QUICKSTART.md) - Alternative quick start
@@ -40,15 +62,13 @@ All documentation has been organized in the `docs/` directory:
   - [INTEGRATION_GUIDE.md](docs/INTEGRATION_GUIDE.md) - Integration documentation
   - [API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md) - API reference
 
-- **Deployment**
-  - [DEPLOYMENT.md](docs/DEPLOYMENT.md) - Deployment guide
-  - [DOCKER-COMPOSE-GUIDE.md](docs/DOCKER-COMPOSE-GUIDE.md) - Docker setup
-  - [VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md) - Vercel deployment
-
 - **Features & Tools**
   - [COMPLETE_FEATURES.md](docs/COMPLETE_FEATURES.md) - Feature list
   - [AI_TOOLS_INTEGRATION.md](docs/AI_TOOLS_INTEGRATION.md) - AI tools
   - [BRAIN_ENGINE_INTEGRATION.md](docs/BRAIN_ENGINE_INTEGRATION.md) - Brain engine
+
+- **GitHub Actions**
+  - [.github/workflows/README.md](.github/workflows/README.md) - 工作流详细说明 ⭐
 
 See the [docs/](docs/) directory for complete documentation.
 
