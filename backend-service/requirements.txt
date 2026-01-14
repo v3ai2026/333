@@ -1,6 +1,6 @@
 Flask==3.0.0
 google-cloud-aiplatform==1.71.1
 vertexai==1.71.1
-gunicorn==21.2.0
+gunicorn==22.0.0
 python-dotenv==1.0.0
 
