@@ -818,8 +818,7 @@ INSERT INTO `engines` (`id`, `key`, `status`, `created_at`, `updated_at`) VALUES
 (29, 'creatify', 'enabled', '2025-12-23 12:44:46', '2025-12-23 12:44:46'),
 (30, 'topview', 'enabled', '2025-12-23 12:44:46', '2025-12-23 12:44:46'),
 (31, 'vizard', 'enabled', '2025-12-23 12:44:46', '2025-12-23 12:44:46'),
-(32, 'klap', 'enabled', '2025-12-23 12:44:46', '2025-12-23 12:44:46'),
-(33, 'ollama', 'enabled', '2026-01-09 12:44:46', '2026-01-09 12:44:46');
+(32, 'klap', 'enabled', '2025-12-23 12:44:46', '2025-12-23 12:44:46');
 
 -- --------------------------------------------------------
 
@@ -1035,12 +1034,7 @@ INSERT INTO `entities` (`id`, `key`, `title`, `engine`, `created_at`, `updated_a
 (188, 'ad-marketing-video', 'Ad Marketing Video', 'creatify', '2025-12-23 12:44:46', '2025-12-23 12:44:51', 'Ad Marketing Video', 0, 'enabled', NULL),
 (189, 'ad-marketing-video-topview', 'Topview Ad Video', 'topview', '2025-12-23 12:44:46', '2025-12-23 12:44:51', 'Topview Ad Video', 0, 'enabled', NULL),
 (190, 'ai-clip-vizard', 'Vizard AI Clip', 'vizard', '2025-12-23 12:44:46', '2025-12-23 12:44:51', 'Vizard AI Clip', 0, 'enabled', NULL),
-(191, 'ai-clip-klap', 'Klap AI Clip', 'klap', '2025-12-23 12:44:46', '2025-12-23 12:44:51', 'Klap AI Clip', 0, 'enabled', NULL),
-(192, 'llama2', 'Llama 2 (Local - Ollama)', 'ollama', '2026-01-09 12:44:46', '2026-01-09 12:44:51', 'Llama 2 (Local - Ollama)', 1, 'enabled', NULL),
-(193, 'llama3', 'Llama 3 (Local - Ollama)', 'ollama', '2026-01-09 12:44:46', '2026-01-09 12:44:51', 'Llama 3 (Local - Ollama)', 0, 'enabled', NULL),
-(194, 'llama3.1', 'Llama 3.1 (Local - Ollama)', 'ollama', '2026-01-09 12:44:46', '2026-01-09 12:44:51', 'Llama 3.1 (Local - Ollama)', 0, 'enabled', NULL),
-(195, 'mistral', 'Mistral 7B (Local - Ollama)', 'ollama', '2026-01-09 12:44:46', '2026-01-09 12:44:51', 'Mistral 7B (Local - Ollama)', 0, 'enabled', NULL),
-(196, 'neural-chat', 'Neural Chat (Local - Ollama)', 'ollama', '2026-01-09 12:44:46', '2026-01-09 12:44:51', 'Neural Chat (Local - Ollama)', 0, 'enabled', NULL);
+(191, 'ai-clip-klap', 'Klap AI Clip', 'klap', '2025-12-23 12:44:46', '2025-12-23 12:44:51', 'Klap AI Clip', 0, 'enabled', NULL);
 
 -- --------------------------------------------------------
 
