@@ -1,14 +1,56 @@
-. codeoss/ 
+# IDEs
+.codeoss/ 
 .vscode/ 
 .idea/ 
+*.swp
+*.swo
+*~
+
+# Dependencies
 node_modules/ 
-package-lock.json
+vendor/
 __pycache__/ 
 *.pyc 
 venv/ 
-env/ 
+env/
+
+# Logs
 *.log 
+storage/logs/*
+!storage/logs/.gitignore
+
+# OS files
 .DS_Store 
 Thumbs.db 
+
+# Build artifacts
 dist/ 
 build/
+
+# Laravel specific
+/bootstrap/cache/*
+!bootstrap/cache/.gitignore
+/storage/*.key
+/storage/app/*
+!storage/app/.gitignore
+/storage/framework/cache/*
+!storage/framework/cache/.gitignore
+/storage/framework/sessions/*
+!storage/framework/sessions/.gitignore
+/storage/framework/testing/*
+!storage/framework/testing/.gitignore
+/storage/framework/views/*
+!storage/framework/views/.gitignore
+
+# Environment
+.env
+.env.backup
+.env.production
+
+# Testing
+.phpunit.result.cache
+coverage/
+
+# Misc
+*.bak
+*.tmp
