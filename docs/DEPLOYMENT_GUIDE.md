@@ -164,9 +164,13 @@ docker compose down
 | `docker-compose.simple.yml` | 简单部署 | 最小化配置，适合快速测试 |
 | `docker-compose.local.yml` | 本地开发 | 包含开发工具和热重载 |
 | `docker-compose.prod.yml` | 生产环境 | 优化的生产配置 |
-| `docker-compose.full.yml` | 完整栈 | 包含所有服务和工具 |
-| `docker-compose.full-stack.yml` | 全栈部署 | 完整的应用栈 |
-| `compose.llamaspider.yml` | Llama Spider | Web 爬虫服务 |
+| `docker-compose.full.yml` | 完整服务 | 包含所有核心服务和数据库 |
+| `docker-compose.full-stack.yml` | 全栈应用 | 完整应用栈，包含前后端和所有依赖 |
+| `compose.llamaspider.yml` | Llama Spider | Web 爬虫服务（独立配置）|
+
+**注意**: `full.yml` 和 `full-stack.yml` 的区别：
+- `full.yml`: 侧重于包含所有服务组件
+- `full-stack.yml`: 侧重于完整的应用栈配置，可能包含更多的开发工具
 
 ### 使用特定配置文件
 

@@ -80,12 +80,12 @@ jobs:
           mkdir -p _site
           
           # 复制 public 目录内容（Laravel 的公共资源）
-          if [ -d "public" ]; then
+          if [ -d "public" ] && [ "$(ls -A public)" ]; then
             echo "📁 复制 public 目录..."
-            cp -r public/* _site/
+            cp -r public/. _site/
             echo "✓ 已复制 public 目录内容"
           else
-            echo "⚠️  未找到 public 目录"
+            echo "⚠️  public 目录不存在或为空"
           fi
           
           # 确保存在 index.html

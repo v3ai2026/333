@@ -289,12 +289,16 @@ curl http://localhost:8000
 # API 文档
 curl http://localhost:8000/api/documentation
 
-# Backend 状态
-curl http://localhost:8080/status
-
-# Backend 健康检查
+# Backend 健康检查（推荐使用）
 curl http://localhost:8080/health
+
+# Backend 状态信息（可选）
+curl http://localhost:8080/status
 ```
+
+**注意**: Backend 服务同时提供 `/health` 和 `/status` 两个端点：
+- `/health`: 用于健康检查，返回服务是否正常运行
+- `/status`: 提供更详细的状态信息（如果实现的话）
 
 ### Docker Compose 管理命令
 
