@@ -1,0 +1,88 @@
+{
+  "basic_spider": {
+    "total": 3,
+    "success": 3,
+    "details": [
+      {
+        "status": "success",
+        "url": "https://www.douban.com/top250",
+        "status_code": 200,
+        "headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+          "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+          "Accept-Encoding": "gzip, deflate",
+          "Connection": "keep-alive",
+          "Upgrade-Insecure-Requests": "1"
+        },
+        "timestamp": "2026-01-09T20:55:02.130765"
+      },
+      {
+        "status": "success",
+        "url": "https://www.taobao.com",
+        "status_code": 200,
+        "headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+          "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+          "Accept-Encoding": "gzip, deflate",
+          "Connection": "keep-alive",
+          "Upgrade-Insecure-Requests": "1"
+        },
+        "timestamp": "2026-01-09T20:55:03.131482"
+      },
+      {
+        "status": "success",
+        "url": "https://hr.tencent.com/position",
+        "status_code": 200,
+        "headers": {
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+          "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+          "Accept-Encoding": "gzip, deflate",
+          "Connection": "keep-alive",
+          "Upgrade-Insecure-Requests": "1"
+        },
+        "timestamp": "2026-01-09T20:55:03.632227"
+      }
+    ]
+  },
+  "parsing": {
+    "XPath": "{'method': 'XPath', 'examples': ['//h2[@class=\"floor_name\"]/text()', '//div[@class=\"color_top\"]/img/@src', '//a[@class=\"item\"]/@href', '//span[@class=\"price\"]/text()'], 'supported_patterns': ['文本提取: /text()', '属性提取: /@attribute', '条件选择: [@class=\"xxx\"]', '多级选择: //parent/child']}",
+    "JSON": "{'method': 'JSON', 'error': 'Expecting value: line 1 column 1 (char 0)'}",
+    "Regex": "{'method': 'Regex', 'patterns': {'email': '\\\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Z|a-z]{2,}\\\\b', 'phone': '\\\\b1[3-9]\\\\d{9}\\\\b', 'url': 'https?://[^\\\\s]+', 'price': '¥[\\\\d,]+'}, 'results': {'email': [], 'phone': [], 'url': [], 'price': []}}"
+  },
+  "storage": {
+    "json": {
+      "success": true,
+      "path": "data/outputs/spider_test/records.json"
+    },
+    "csv": {
+      "success": true,
+      "path": "data/outputs/spider_test/records.csv"
+    },
+    "records": 3
+  },
+  "distributed": {
+    "processed": [
+      "task_1",
+      "task_4",
+      "task_2",
+      "task_5",
+      "task_3"
+    ],
+    "stats": {
+      "pending": 0,
+      "done": 5,
+      "failed": 0,
+      "total": 5
+    }
+  },
+  "summary": {
+    "total_tests": 4,
+    "passed": 4,
+    "failed": 0,
+    "timestamp": "2026-01-09T20:55:03.641306",
+    "status": "PASSED"
+  }
+}

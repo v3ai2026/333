@@ -1,0 +1,278 @@
+version: '3.8'
+
+services:
+  # ============================================
+  # 🌐 FastAPI 应用服务器
+  # ============================================
+  api:
+    build: .
+    container_name: llamaspider-api
+    ports:
+      - "9000:8000"
+    environment:
+      - DATABASE_URL=postgresql://llamaspider:password@postgres:5432/llamaspider
+      - REDIS_URL=redis://redis:6379/0
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=llamaspider123
+      - ELASTICSEARCH_HOST=http://elasticsearch:9200
+      - OLLAMA_API_URL=http://ollama:11434
+      - JWT_SECRET=your-secret-key-change-this-in-production
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+      - neo4j
+      - ollama
+    volumes:
+      - ./scripts:/app/scripts
+      - ./logs:/app/logs
+    networks:
+      - llamaspider
+    command: python scripts/server.py api --host 0.0.0.0 --port 8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ============================================
+  # 🐘 PostgreSQL 主数据库
+  # ============================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: llamaspider-postgres
+    environment:
+      - POSTGRES_USER=llamaspider
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=llamaspider
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./magicai.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - llamaspider
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U llamaspider"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # 💾 Redis 缓存和队列
+  # ============================================
+  redis:
+    image: redis:7-alpine
+    container_name: llamaspider-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - llamaspider
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # 🔍 Elasticsearch 全文搜索
+  # ============================================
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: llamaspider-es
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - llamaspider
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # ============================================
+  # 🔗 Neo4j 知识图谱数据库
+  # ============================================
+  neo4j:
+    image: neo4j:5.15
+    container_name: llamaspider-neo4j
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+    environment:
+      - NEO4J_AUTH=neo4j/llamaspider123
+      - NEO4J_PLUGINS=["apoc", "graph-data-science"]
+    volumes:
+      - neo4j_data:/var/lib/neo4j/data
+    networks:
+      - llamaspider
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -a bolt://localhost:7687 -u neo4j -p llamaspider123 'RETURN 1'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # ============================================
+  # 🤖 Ollama LLM 服务
+  # ============================================
+  ollama:
+    image: ollama/ollama:latest
+    container_name: llamaspider-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - llamaspider
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+    # GPU 支持（如果有 NVIDIA GPU）
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  # ============================================
+  # ⚙️ Celery Worker 异步任务
+  # ============================================
+  celery_worker:
+    build: .
+    container_name: llamaspider-celery-worker
+    environment:
+      - DATABASE_URL=postgresql://llamaspider:password@postgres:5432/llamaspider
+      - REDIS_URL=redis://redis:6379/0
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=llamaspider123
+      - ELASTICSEARCH_HOST=http://elasticsearch:9200
+      - OLLAMA_API_URL=http://ollama:11434
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ./scripts:/app/scripts
+      - ./logs:/app/logs
+    networks:
+      - llamaspider
+    command: celery -A scripts.celery_task_queue worker --loglevel=info --concurrency=4
+
+  # ============================================
+  # ⏰ Celery Beat 定时任务
+  # ============================================
+  celery_beat:
+    build: .
+    container_name: llamaspider-celery-beat
+    environment:
+      - DATABASE_URL=postgresql://llamaspider:password@postgres:5432/llamaspider
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ./scripts:/app/scripts
+      - ./logs:/app/logs
+    networks:
+      - llamaspider
+    command: celery -A scripts.celery_task_queue beat --loglevel=info
+
+  # ============================================
+  # 📊 Prometheus 监控
+  # ============================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: llamaspider-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - llamaspider
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+
+  # ============================================
+  # 📈 Grafana 仪表板
+  # ============================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: llamaspider-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - llamaspider
+
+  # ============================================
+  # 📚 ChromaDB 向量知识库（可选）
+  # ============================================
+  chroma:
+    image: ghcr.io/chroma-core/chroma:latest
+    container_name: llamaspider-chroma
+    ports:
+      - "8001:8000"
+    volumes:
+      - chroma_data:/chroma/data
+    networks:
+      - llamaspider
+    environment:
+      - CHROMA_HOST_PORT=8000
+
+  # ============================================
+  # 🔌 Adminer 数据库管理工具
+  # ============================================
+  adminer:
+    image: adminer:latest
+    container_name: llamaspider-adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - llamaspider
+
+networks:
+  llamaspider:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+  neo4j_data:
+    driver: local
+  ollama_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  chroma_data:
+    driver: local
