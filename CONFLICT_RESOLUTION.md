@@ -64,12 +64,58 @@ networks:
 1. `docker-compose-simple.yml` - 已修复
 2. `docker-compose-simple.yml.backup` - 创建的备份文件
 
+## 其他检查 (Other Checks)
+
+### 依赖项检查 (Dependency Check)
+- ✅ npm packages 配置正确（需要运行 `npm install`）
+- ✅ composer.json 配置有效
+- ✅ 没有发现依赖冲突
+
+### 环境配置检查 (Environment Configuration Check)
+- ✅ .env 文件存在
+- ✅ .env.example 可作为模板使用
+- ✅ .env.vercel.example 用于 Vercel 部署
+- ✅ 没有重复的环境配置
+
+### YAML 语法验证 (YAML Syntax Validation)
+所有 Docker Compose 文件已通过 YAML 语法验证:
+- ✅ docker-compose.yml
+- ✅ docker-compose-simple.yml
+- ✅ docker-compose.full.yml
+- ✅ docker-compose.full-stack.yml
+- ✅ docker-compose.local.yml
+- ✅ docker-compose.prod.yml
+
+## 端口使用分析 (Port Usage Analysis)
+
+已检查所有 Docker Compose 文件的端口分配。虽然某些端口在多个文件中使用，但这是**预期行为**，因为:
+
+1. **不同的部署场景**: 每个 docker-compose 文件用于不同的部署场景
+   - `docker-compose.yml`: 基础配置
+   - `docker-compose-simple.yml`: 简化配置（使用 3307 避免冲突）
+   - `docker-compose.full.yml`: 完整功能配置
+   - `docker-compose.full-stack.yml`: 全栈开发配置
+   - `docker-compose.local.yml`: 本地开发配置
+   - `docker-compose.prod.yml`: 生产环境配置
+
+2. **不会同时运行**: 这些文件不会同时使用，因此端口重叠不是问题
+
+3. **端口分配正确**: 
+   - 数据库: 3306/3307
+   - Redis: 6379
+   - Web: 8000
+   - Python Backend: 8080
+   - Nginx: 80/443
+
+✅ **结论**: 端口配置正确，无真正的冲突
+
 ## 建议 (Recommendations)
 
 1. **文件完整性检查**: 定期检查配置文件，确保没有意外的内容附加
 2. **使用版本控制**: 确保所有配置文件都在版本控制之下
 3. **代码审查**: 在合并更改前进行代码审查，以捕获类似问题
 4. **自动化验证**: 考虑添加 CI/CD 检查来验证 Docker Compose 文件的语法
+5. **文档化部署场景**: 在 README 中明确说明每个 docker-compose 文件的用途
 
 ## 冲突类型总结 (Conflict Types Summary)
 
