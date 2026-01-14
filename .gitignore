@@ -54,3 +54,4 @@ coverage/
 # Misc
 *.bak
 *.tmp
+vercel.json.redirect-old
