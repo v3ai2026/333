@@ -148,7 +148,7 @@ fi
 print_step "Step 4: Building Docker Images..."
 
 print_info "This may take a few minutes on first run..."
-if docker compose build --progress=plain; then
+if docker compose build; then
     print_success "Docker images built successfully"
 else
     print_error "Failed to build Docker images"
@@ -157,6 +157,7 @@ else
     echo "  • Check Dockerfile syntax in backend-service/"
     echo "  • Ensure requirements.txt is valid"
     echo "  • Check your internet connection"
+    echo "  • Run: docker compose config (to validate docker-compose.yml)"
     echo ""
     exit 1
 fi

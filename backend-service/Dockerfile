@@ -15,7 +15,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy app files
 COPY app.py .
-COPY .env.example .env
+
+# Create empty .env if needed (optional config file)
+RUN touch .env
 
 # Expose port
 EXPOSE 8080
