@@ -146,6 +146,8 @@ What do you need?
 
 #### Quick Start
 
+> **Note**: This guide uses `docker-compose` (v1 syntax). If you have Docker Compose v2, you can use `docker compose` (without hyphen) instead.
+
 ```bash
 # 1. Clone repository
 git clone https://github.com/v3ai2026/333.git
