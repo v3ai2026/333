@@ -2,6 +2,12 @@
 
 An advanced AI-powered application built with Laravel framework.
 
+## 📊 Status
+
+![GitHub Pages](https://github.com/v3ai2026/333/actions/workflows/pages.yml/badge.svg)
+![CI/CD Pipeline](https://github.com/v3ai2026/333/actions/workflows/deploy.yml/badge.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
 ## 📁 Project Structure
 
 ```
@@ -75,6 +81,44 @@ See the [docs/](docs/) directory for complete documentation.
    ```bash
    php artisan serve
    ```
+
+## 🌐 Deployment
+
+MagicAI v9.9 supports multiple deployment options:
+
+### GitHub Pages (Documentation/Demo)
+Static site deployment for documentation and project showcase.
+
+- **Live Site**: https://v3ai2026.github.io/333/
+- **Setup Guide**: [GitHub Pages Setup](docs/GITHUB_PAGES_SETUP.md)
+- **Status**: Automatically deploys from `main` branch
+
+### Docker Deployment (Recommended)
+Full-stack deployment with all services included.
+
+```bash
+# Quick start with Docker
+docker-compose up -d
+
+# Access application
+open http://localhost:8000
+```
+
+### Other Options
+- **Local Development**: Full PHP/Node.js setup
+- **Vercel**: Serverless frontend deployment
+- **Traditional Hosting**: cPanel/VPS deployment
+
+📖 **Complete Deployment Guide**: [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md)
+
+### Deployment Workflows
+
+This project uses automated GitHub Actions workflows:
+
+- **`pages.yml`**: Deploys static site to GitHub Pages (triggers on `main` branch)
+- **`deploy.yml`**: CI/CD pipeline for development (triggers on `develop`/`staging` branches)
+
+📖 **Workflow Documentation**: [.github/workflows/README.md](.github/workflows/README.md)
 
 ## 🛠 Utility Scripts
 

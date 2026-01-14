@@ -27,36 +27,239 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
+      - name: ℹ️ Pre-Deployment Information
+        run: |
+          echo "=========================================="
+          echo "GitHub Pages Deployment"
+          echo "=========================================="
+          echo ""
+          echo "📌 Repository: ${{ github.repository }}"
+          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "📝 Commit: ${{ github.sha }}"
+          echo "👤 Actor: ${{ github.actor }}"
+          echo ""
+          echo "⚠️ IMPORTANT: GitHub Pages must be enabled!"
+          echo ""
+          echo "If this workflow fails with 'Get Pages site failed':"
+          echo "1. Go to Settings → Pages"
+          echo "2. Set Source to 'GitHub Actions'"
+          echo "3. Wait 1-2 minutes and re-run this workflow"
+          echo ""
+          echo "📖 Setup Guide: https://github.com/${{ github.repository }}/blob/main/docs/GITHUB_PAGES_SETUP.md"
+          echo "=========================================="
+
       - name: 📦 Setup Pages
+        id: configure-pages
         uses: actions/configure-pages@v4
+        continue-on-error: true
+
+      - name: ❌ Pages Configuration Failed
+        if: steps.configure-pages.outcome == 'failure'
+        run: |
+          echo "=========================================="
+          echo "❌ GitHub Pages Setup Failed"
+          echo "=========================================="
+          echo ""
+          echo "ERROR: GitHub Pages is not enabled or not configured correctly."
+          echo ""
+          echo "🔧 How to Fix:"
+          echo ""
+          echo "1. Enable GitHub Pages:"
+          echo "   → Go to: https://github.com/${{ github.repository }}/settings/pages"
+          echo "   → Under 'Build and deployment'"
+          echo "   → Set 'Source' to 'GitHub Actions'"
+          echo "   → Click 'Save'"
+          echo ""
+          echo "2. Wait 1-2 minutes for GitHub to process the change"
+          echo ""
+          echo "3. Re-run this workflow:"
+          echo "   → Go to: https://github.com/${{ github.repository }}/actions"
+          echo "   → Click 'Deploy to GitHub Pages'"
+          echo "   → Click 'Re-run jobs'"
+          echo ""
+          echo "📚 Detailed Setup Guide:"
+          echo "   https://github.com/${{ github.repository }}/blob/main/docs/GITHUB_PAGES_SETUP.md"
+          echo ""
+          echo "📖 Workflow Documentation:"
+          echo "   https://github.com/${{ github.repository }}/blob/main/.github/workflows/README.md"
+          echo ""
+          echo "❓ Need Help?"
+          echo "   Create an issue: https://github.com/${{ github.repository }}/issues/new"
+          echo "=========================================="
+          exit 1
 
       - name: 🔨 Build Static Site
         run: |
+          echo "=========================================="
           echo "Building static site for GitHub Pages..."
+          echo "=========================================="
+          
+          # Create output directory
           mkdir -p _site
           
-          # Copy public directory contents
+          # Copy public directory contents if it exists
           if [ -d "public" ]; then
+            echo "✓ Found public directory"
             cp -r public/* _site/
-            echo "✓ Copied public directory"
+            echo "✓ Copied public directory contents"
           else
-            echo "⚠️ No public directory found"
+            echo "⚠️ No public directory found - will create fallback page"
           fi
           
           # Ensure index.html exists
           if [ ! -f "_site/index.html" ]; then
             echo "⚠️ No index.html found, creating default fallback page"
-            echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>MagicAI v9.9</title></head><body><h1>MagicAI v9.9</h1><p>Visit <a href="https://github.com/v3ai2026/333">GitHub Repository</a></p></body></html>' > _site/index.html
+            cat > _site/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>MagicAI v9.9 - AI-Powered Laravel Application</title>
+              <style>
+                  * { margin: 0; padding: 0; box-sizing: border-box; }
+                  body {
+                      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                      color: #333;
+                      line-height: 1.6;
+                      min-height: 100vh;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      padding: 20px;
+                  }
+                  .container {
+                      background: white;
+                      border-radius: 20px;
+                      padding: 60px 40px;
+                      max-width: 800px;
+                      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                  }
+                  h1 {
+                      color: #667eea;
+                      font-size: 3em;
+                      margin-bottom: 20px;
+                      font-weight: 700;
+                  }
+                  h2 { color: #555; margin: 30px 0 15px; font-size: 1.5em; }
+                  p { margin-bottom: 15px; color: #666; }
+                  .badge {
+                      display: inline-block;
+                      background: #667eea;
+                      color: white;
+                      padding: 5px 15px;
+                      border-radius: 20px;
+                      font-size: 0.9em;
+                      margin-right: 10px;
+                      margin-bottom: 10px;
+                  }
+                  .button {
+                      display: inline-block;
+                      background: #667eea;
+                      color: white;
+                      padding: 15px 30px;
+                      text-decoration: none;
+                      border-radius: 10px;
+                      margin: 10px 10px 10px 0;
+                      font-weight: 600;
+                      transition: all 0.3s;
+                  }
+                  .button:hover { background: #764ba2; transform: translateY(-2px); }
+                  .button.secondary {
+                      background: white;
+                      color: #667eea;
+                      border: 2px solid #667eea;
+                  }
+                  .button.secondary:hover { background: #f8f9fa; }
+                  ul { margin-left: 20px; color: #666; }
+                  li { margin-bottom: 10px; }
+                  .note {
+                      background: #fff3cd;
+                      border-left: 4px solid #ffc107;
+                      padding: 15px;
+                      margin: 20px 0;
+                      border-radius: 5px;
+                  }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>🚀 MagicAI v9.9</h1>
+                  <p style="font-size: 1.2em; color: #667eea;">
+                      <strong>Advanced AI-Powered Laravel Application</strong>
+                  </p>
+                  
+                  <div style="margin: 20px 0;">
+                      <span class="badge">Laravel 10</span>
+                      <span class="badge">PHP 8.2</span>
+                      <span class="badge">AI Integration</span>
+                      <span class="badge">Docker Ready</span>
+                  </div>
+
+                  <h2>📖 About This Page</h2>
+                  <p>
+                      This is the GitHub Pages deployment of MagicAI v9.9. 
+                      GitHub Pages hosts static content only - for the full application with backend functionality, 
+                      please use one of the deployment methods below.
+                  </p>
+
+                  <h2>🚀 Deployment Options</h2>
+                  <ul>
+                      <li><strong>Docker (Recommended)</strong>: Full-stack deployment with all services</li>
+                      <li><strong>Local Development</strong>: PHP, Composer, Node.js setup</li>
+                      <li><strong>Traditional Hosting</strong>: cPanel, VPS deployment</li>
+                      <li><strong>GitHub Pages</strong>: Static documentation (this site)</li>
+                  </ul>
+
+                  <div class="note">
+                      <strong>⚠️ Note:</strong> This static site does not include Laravel backend functionality, 
+                      database access, or AI services. Please refer to the deployment guide for full application setup.
+                  </div>
+
+                  <h2>🔗 Quick Links</h2>
+                  <div style="margin-top: 20px;">
+                      <a href="https://github.com/v3ai2026/333" class="button">
+                          📂 View Repository
+                      </a>
+                      <a href="https://github.com/v3ai2026/333/blob/main/docs/DEPLOYMENT_GUIDE.md" class="button secondary">
+                          📚 Deployment Guide
+                      </a>
+                  </div>
+                  
+                  <div style="margin-top: 20px;">
+                      <a href="https://github.com/v3ai2026/333/blob/main/docs/GITHUB_PAGES_SETUP.md" class="button secondary">
+                          📖 Pages Setup Guide
+                      </a>
+                      <a href="https://github.com/v3ai2026/333/actions" class="button secondary">
+                          ⚙️ GitHub Actions
+                      </a>
+                  </div>
+
+                  <p style="margin-top: 40px; color: #999; font-size: 0.9em;">
+                      Last updated: 2026-01-14 | Version: v9.9
+                  </p>
+              </div>
+          </body>
+          </html>
+          EOF
+            echo "✓ Created fallback index.html"
+          else
+            echo "✓ index.html already exists"
           fi
           
           # Create .nojekyll to disable Jekyll processing
           touch _site/.nojekyll
+          echo "✓ Created .nojekyll file"
           
-          # List generated files
-          echo "Generated files:"
-          ls -la _site/
+          # List generated files for verification
+          echo ""
+          echo "Generated site structure:"
+          ls -lah _site/
           
+          echo ""
           echo "✓ Static site built successfully"
+          echo "=========================================="
 
       - name: 📤 Upload Artifact
         uses: actions/upload-pages-artifact@v3
