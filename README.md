@@ -2,6 +2,35 @@
 
 An advanced AI-powered application built with Laravel framework.
 
+## 🚀 快速部署 | Quick Deploy
+
+**⚡ 最快方式 - Docker（推荐）| Fastest Way - Docker (Recommended):**
+
+```bash
+# 一键部署 | One-Click Deploy
+chmod +x scripts/deploy-docker.sh && ./scripts/deploy-docker.sh
+```
+
+**📖 详细指南** | Detailed Guide: **[QUICK_DEPLOY.md](QUICK_DEPLOY.md)**
+
+**部署时间** | Deployment Time: **~5 分钟** | **~5 minutes**
+
+---
+
+## ⚠️ GitHub Pages 状态 | GitHub Pages Status
+
+当前 **未启用** GitHub Pages | Currently **NOT ENABLED** for GitHub Pages.
+
+如需启用 | To enable:
+1. 前往 Settings → Pages
+2. Source 选择 "GitHub Actions"
+3. 移除 `.github/workflows/pages.yml` 中的禁用条件
+4. 推送到 main 分支触发工作流
+
+**CI/CD 状态** | CI/CD Status: ![CI/CD](https://github.com/v3ai2026/333/actions/workflows/deploy.yml/badge.svg)
+
+---
+
 ## 📁 Project Structure
 
 ```

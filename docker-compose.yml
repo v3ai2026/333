@@ -1,78 +1,54 @@
 
 version: '3.8'
+
 services:
   db:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: magicai
       MYSQL_USER: magicai
-      MYSQL_PASSWORD: secret
-    volumes:
-      - db_data:/var/lib/mysql
+      MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
-    image: redis:7
+    image: redis:7-alpine
     restart: always
     ports:
       - "6379:6379"
-
-  web:
-    build:
-      context: "./MagicAI v9.9/Magicai-Server-Files"
-      dockerfile: Dockerfile
-    depends_on:
-      - db
-      - redis
-      - python-backend
-    environment:
-      APP_ENV: local
-      APP_DEBUG: 'true'
-      DB_HOST: db
-      DB_DATABASE: magicai
-      DB_USERNAME: magicai
-      DB_PASSWORD: secret
-      BROADCAST_DRIVER: redis
-      QUEUE_CONNECTION: redis
-      VERTEX_AI_BACKEND_URL: http://python-backend:8080
-    volumes:
-      - "./MagicAI v9.9/Magicai-Server-Files:/var/www/html"
-      - "./MagicAI v9.9/Magicai-Server-Files/storage:/var/www/html/storage"
-    ports:
-      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
 
   python-backend:
-    build:
-      context: "./MagicAI v9.9/backend-service"
-      dockerfile: Dockerfile
-    depends_on:
-      - db
-    environment:
-      GCP_PROJECT_ID: your-gcp-project
-      GCP_REGION: your-region
+    build: ./backend-service
+    restart: always
     ports:
       - "8080:8080"
-
-  queue-worker:
-    build:
-      context: "./MagicAI v9.9/Magicai-Server-Files"
-      dockerfile: Dockerfile
-    depends_on:
-      - db
-      - redis
-    command: php artisan queue:work --tries=3 --timeout=60
     environment:
-      APP_ENV: local
-      APP_DEBUG: 'true'
-      DB_HOST: db
-      DB_DATABASE: magicai
-      DB_USERNAME: magicai
-      DB_PASSWORD: secret
-      QUEUE_CONNECTION: redis
+      - PORT=8080
+      - GCP_PROJECT_ID=gen-lang-client-0654563230
+      - GCP_REGION=us-central1
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 volumes:
   db_data:
-services:

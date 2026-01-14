@@ -1,9 +1,23 @@
-name: Deploy to GitHub Pages
+# ==============================================================================
+# DISABLED: GitHub Pages workflow
+# ==============================================================================
+# This workflow is currently DISABLED because GitHub Pages is not enabled
+# for this repository, causing continuous deployment failures.
+#
+# To enable GitHub Pages:
+# 1. Go to Settings → Pages
+# 2. Under "Source", select "GitHub Actions"
+# 3. Remove the condition "if: false" below
+# 4. Push to main branch to trigger deployment
+#
+# Current Status: ❌ DISABLED
+# Last Updated: 2026-01-14
+# ==============================================================================
+
+name: Deploy to GitHub Pages (DISABLED)
 
 on:
-  push:
-    branches:
-      - main
+  # Only allow manual workflow dispatch - automatic triggers disabled
   workflow_dispatch:
 
 permissions:
@@ -19,6 +33,8 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
+    # Disable this job until GitHub Pages is enabled
+    if: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
