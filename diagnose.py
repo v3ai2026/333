@@ -24,7 +24,7 @@ class ModaStudioDiagnostics:
             result = sock.connect_ex(('localhost', port))
             sock.close()
             return result == 0
-        except BaseException:
+        except Exception:
             return False
 
     def check_service(self, url, name, timeout=5):
@@ -32,7 +32,7 @@ class ModaStudioDiagnostics:
         try:
             response = requests.get(url, timeout=timeout)
             return response.status_code < 500
-        except BaseException:
+        except Exception:
             return False
 
     def run_diagnostics(self):
@@ -110,7 +110,7 @@ class ModaStudioDiagnostics:
                 print(f"  📁 当前分支: {branch}")
             else:
                 print("  ⚠️  Git 仓库初始化失败")
-        except BaseException:
+        except Exception:
             print("  ⚠️  Git 不可用")
 
         # 总结
