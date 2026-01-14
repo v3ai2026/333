@@ -1,78 +1,154 @@
-
 version: '3.8'
+
 services:
+  # MySQL Database
   db:
     image: mysql:8.0
+    container_name: magicai_mysql
     restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 5
+      interval: 10s
     environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: magicai
-      MYSQL_USER: magicai
-      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-magicai}
+      MYSQL_USER: ${MYSQL_USER:-magicai}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password}
+      MYSQL_INITDB_SKIP_TZINFO: "no"
     volumes:
       - db_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d
     ports:
-      - "3306:3306"
+      - "${DB_PORT:-3306}:3306"
+    networks:
+      - magicai-network
 
+  # Redis Cache & Queue
   redis:
-    image: redis:7
+    image: redis:7-alpine
+    container_name: magicai_redis
     restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      timeout: 3s
+      retries: 5
+      interval: 10s
+    volumes:
+      - redis_data:/data
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - magicai-network
+    command: redis-server --appendonly yes
 
+  # Laravel Web Application
   web:
     build:
-      context: "./MagicAI v9.9/Magicai-Server-Files"
+      context: ./Magicai-Server-Files
       dockerfile: Dockerfile
+    container_name: magicai_web
+    restart: always
     depends_on:
-      - db
-      - redis
-      - python-backend
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
-      APP_ENV: local
-      APP_DEBUG: 'true'
+      APP_NAME: MagicAI
+      APP_ENV: ${APP_ENV:-local}
+      APP_DEBUG: ${APP_DEBUG:-false}
+      APP_KEY: ${APP_KEY:-}
+      
+      # Database Configuration
+      DB_CONNECTION: mysql
       DB_HOST: db
-      DB_DATABASE: magicai
-      DB_USERNAME: magicai
-      DB_PASSWORD: secret
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE:-magicai}
+      DB_USERNAME: ${MYSQL_USER:-magicai}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-password}
+      
+      # Cache & Queue
+      CACHE_DRIVER: redis
       BROADCAST_DRIVER: redis
       QUEUE_CONNECTION: redis
+      REDIS_HOST: redis
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+      REDIS_PORT: 6379
+      
+      # External Services
       VERTEX_AI_BACKEND_URL: http://python-backend:8080
+      GCP_PROJECT_ID: ${GCP_PROJECT_ID:-}
+      
+      # Session Configuration
+      SESSION_DRIVER: cookie
+      SESSION_LIFETIME: 120
+      
+      # File Storage
+      FILESYSTEM_DISK: local
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_DEFAULT_REGION: ${AWS_REGION:-us-east-1}
+      AWS_BUCKET: ${AWS_BUCKET:-}
     volumes:
-      - "./MagicAI v9.9/Magicai-Server-Files:/var/www/html"
-      - "./MagicAI v9.9/Magicai-Server-Files/storage:/var/www/html/storage"
+      - ./Magicai-Server-Files:/var/www/html
+      - app_storage:/var/www/html/storage
+      - app_cache:/var/www/html/bootstrap/cache
     ports:
-      - "8000:8000"
+      - "${WEB_PORT:-8000}:8000"
+    networks:
+      - magicai-network
 
+  # Python Backend Service (Vertex AI, GCP Integration)
   python-backend:
     build:
-      context: "./MagicAI v9.9/backend-service"
+      context: ./backend-service
       dockerfile: Dockerfile
+    container_name: magicai_backend
+    restart: always
     depends_on:
-      - db
-    environment:
-      GCP_PROJECT_ID: your-gcp-project
-      GCP_REGION: your-region
-    ports:
-      - "8080:8080"
-
-  queue-worker:
-    build:
-      context: "./MagicAI v9.9/Magicai-Server-Files"
-      dockerfile: Dockerfile
-    depends_on:
-      - db
       - redis
-    command: php artisan queue:work --tries=3 --timeout=60
     environment:
-      APP_ENV: local
-      APP_DEBUG: 'true'
-      DB_HOST: db
-      DB_DATABASE: magicai
-      DB_USERNAME: magicai
-      DB_PASSWORD: secret
-      QUEUE_CONNECTION: redis
+      APP_DEBUG: ${APP_DEBUG:-false}
+      FLASK_ENV: ${FLASK_ENV:-production}
+      PORT: 8080
+      
+      # GCP Configuration
+      GCP_PROJECT_ID: ${GCP_PROJECT_ID:-}
+      GCP_REGION: ${GCP_REGION:-us-central1}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-}
+      
+      # Vertex AI
+      VERTEX_AI_ENABLED: ${VERTEX_AI_ENABLED:-true}
+      VERTEX_AI_MODEL: ${VERTEX_AI_MODEL:-gemini-pro}
+      
+      # Redis for job queue
+      REDIS_URL: redis://${REDIS_PASSWORD:+:${REDIS_PASSWORD}@}redis:6379
+    volumes:
+      - ./backend-service:/app
+      - ./backend-service/.env:/app/.env:ro
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    networks:
+      - magicai-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+networks:
+  magicai-network:
+    driver: bridge
 
 volumes:
   db_data:
-services:
+    driver: local
+  redis_data:
+    driver: local
+  app_storage:
+    driver: local
+  app_cache:
+    driver: local
