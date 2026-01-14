@@ -146,7 +146,7 @@ What do you need?
 
 #### Quick Start
 
-> **Note**: This guide uses `docker-compose` (v1 syntax). If you have Docker Compose v2, you can use `docker compose` (without hyphen) instead.
+> **Note**: This guide uses `docker-compose` (v1 CLI syntax). Docker Compose v2 is now the standard - use `docker compose` (space, no hyphen) if you have v2 installed. Both work identically; v1 is kept for backward compatibility with older systems.
 
 ```bash
 # 1. Clone repository
